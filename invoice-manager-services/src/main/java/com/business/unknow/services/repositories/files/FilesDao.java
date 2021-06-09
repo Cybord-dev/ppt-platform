@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.stereotype.Repository;
 
-/** @author ralfdemoledor */
 @Repository
 public class FilesDao {
 

@@ -5,7 +5,6 @@ import com.business.unknow.model.context.FacturaContext;
 import com.business.unknow.model.dto.FacturaDto;
 import com.business.unknow.model.dto.cfdi.CfdiDto;
 import com.business.unknow.model.dto.cfdi.CfdiPagoDto;
-import com.business.unknow.model.error.InvoiceManagerException;
 import com.business.unknow.services.entities.Client;
 import com.business.unknow.services.entities.Devolucion;
 import com.business.unknow.services.repositories.facturas.DevolucionRepository;
@@ -25,8 +24,7 @@ public class DevolucionExecutorService {
 
   @Autowired private FacturaService facturaService;
 
-  public void executeDevolucionForPue(FacturaContext context, Client client)
-      throws InvoiceManagerException {
+  public void executeDevolucionForPue(FacturaContext context, Client client) {
     BigDecimal baseComisiones = calculaImpuestos(context.getFacturaDto().getCfdi());
     BigDecimal realSubtotal = calculaImporteBaseFactura(context.getFacturaDto().getCfdi());
     BigDecimal total = context.getFacturaDto().getCfdi().getTotal();
@@ -86,8 +84,7 @@ public class DevolucionExecutorService {
     }
   }
 
-  public void executeDevolucionForPpd(FacturaContext context, Client client)
-      throws InvoiceManagerException {
+  public void executeDevolucionForPpd(FacturaContext context, Client client) {
     for (CfdiPagoDto pagoDto : context.getFacturaDto().getCfdi().getComplemento().getPagos()) {
       FacturaDto facturaDto = facturaService.getFacturaByFolio(pagoDto.getFolio());
       BigDecimal impuestos = calculaImpuestos(facturaDto.getCfdi());
@@ -161,7 +158,7 @@ public class DevolucionExecutorService {
         cfdiDto.getConceptos().stream()
             .map(c -> c.getImporte())
             .reduce(BigDecimal.ZERO, (i1, i2) -> i1.add(i2))
-            .setScale(2, BigDecimal.ROUND_HALF_UP);
+            .setScale(2, RoundingMode.HALF_UP);
     BigDecimal retenciones =
         cfdiDto.getConceptos().stream()
             .map(
@@ -170,7 +167,7 @@ public class DevolucionExecutorService {
                         .map(imp -> imp.getImporte())
                         .reduce(BigDecimal.ZERO, (i1, i2) -> i1.add(i2)))
             .reduce(BigDecimal.ZERO, (i1, i2) -> i1.add(i2))
-            .setScale(2, BigDecimal.ROUND_HALF_UP);
+            .setScale(2, RoundingMode.HALF_UP);
     return subtotal.subtract(retenciones);
   }
 
@@ -184,6 +181,6 @@ public class DevolucionExecutorService {
                         BigDecimal.ZERO,
                         (i1, i2) -> i1.add(i2))) // suma importe impuestos por concepto
         .reduce(BigDecimal.ZERO, (i1, i2) -> i1.add(i2))
-        .setScale(2, BigDecimal.ROUND_HALF_UP);
+        .setScale(2, RoundingMode.HALF_UP);
   }
 }

@@ -1,35 +1,5 @@
 package com.business.unknow.services.services;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import com.business.unknow.services.services.translators.RelacionadosTranslator;
-import com.business.unknow.services.util.validators.FacturaValidator;
 import com.business.unknow.enums.FacturaStatusEnum;
 import com.business.unknow.enums.MetodosPagoEnum;
 import com.business.unknow.enums.PackFacturarionEnum;
@@ -142,7 +112,7 @@ public class FacturaService {
 
     log.info("Finding facturas by {}", parameters);
 
-    return new Specification<Factura>() {
+    return new Specification<>() {
 
       private static final long serialVersionUID = -7435096122716669730L;
 
@@ -215,8 +185,8 @@ public class FacturaService {
   public Page<FacturaDto> getFacturasByParametros(Map<String, String> parameters) {
 
     Page<Factura> result;
-    int page = (parameters.get("page") == null) ? 0 : Integer.valueOf(parameters.get("page"));
-    int size = (parameters.get("size") == null) ? 10 : Integer.valueOf(parameters.get("size"));
+    int page = (parameters.get("page") == null) ? 0 : Integer.parseInt(parameters.get("page"));
+    int size = (parameters.get("size") == null) ? 10 : Integer.parseInt(parameters.get("size"));
     if (parameters.get("prefolio") != null) {
       result = repository.findByPreFolio(parameters.get("prefolio"), PageRequest.of(0, 10));
     } else {
@@ -232,8 +202,8 @@ public class FacturaService {
   }
 
   public Page<FacturaReportDto> getFacturaReportsByParams(Map<String, String> parameters) {
-    int page = (parameters.get("page") == null) ? 0 : Integer.valueOf(parameters.get("page"));
-    int size = (parameters.get("size") == null) ? 10 : Integer.valueOf(parameters.get("size"));
+    int page = (parameters.get("page") == null) ? 0 : Integer.parseInt(parameters.get("page"));
+    int size = (parameters.get("size") == null) ? 10 : Integer.parseInt(parameters.get("size"));
     Page<Factura> result =
         repository.findAll(
             buildSearchFilters(parameters),
@@ -244,7 +214,7 @@ public class FacturaService {
     if (folios.isEmpty()) {
       return new PageImpl<>(new ArrayList<>(), result.getPageable(), result.getTotalElements());
     } else {
-      return new PageImpl<FacturaReportDto>(
+      return new PageImpl<>(
           facturaDao.getInvoiceDetailsByFolios(folios),
           result.getPageable(),
           result.getTotalElements());
@@ -252,8 +222,8 @@ public class FacturaService {
   }
 
   public Page<PagoReportDto> getComplementoReportsByParams(Map<String, String> parameters) {
-    int page = (parameters.get("page") == null) ? 0 : Integer.valueOf(parameters.get("page"));
-    int size = (parameters.get("size") == null) ? 10 : Integer.valueOf(parameters.get("size"));
+    int page = (parameters.get("page") == null) ? 0 : Integer.parseInt(parameters.get("page"));
+    int size = (parameters.get("size") == null) ? 10 : Integer.parseInt(parameters.get("size"));
     Page<Factura> result =
         repository.findAll(
             buildSearchFilters(parameters),
@@ -297,17 +267,15 @@ public class FacturaService {
 
   public FacturaDto getFacturaByIdCfdi(int id) {
     CfdiDto cfdiDto = cfdiService.getCfdiById(id);
-    FacturaDto factura =
-        mapper.getFacturaDtoFromEntity(
-            repository
-                .findByFolio(cfdiDto.getFolio())
-                .orElseThrow(
-                    () ->
-                        new ResponseStatusException(
-                            HttpStatus.NOT_FOUND,
-                            String.format(
-                                "La factura con el folio %s no existe", cfdiDto.getFolio()))));
-    return factura;
+    return mapper.getFacturaDtoFromEntity(
+        repository
+            .findByFolio(cfdiDto.getFolio())
+            .orElseThrow(
+                () ->
+                    new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        String.format(
+                            "La factura con el folio %s no existe", cfdiDto.getFolio()))));
   }
 
   public FacturaDto getBaseFacturaByFolio(String folio) {
@@ -645,7 +613,7 @@ public class FacturaService {
       FacturaDto complemento =
           facturaBuilderService.buildFacturaDtoPagoPpdCreation(factura, pagoPpd);
       List<CfdiPagoDto> cfdiPagos =
-          facturaBuilderService.buildFacturaComplementoPagos(factura, pagoPpd, facturas);
+          facturaBuilderService.buildFacturaComplementoPagos(pagoPpd, facturas);
       cfdiDto.setComplemento(new ComplementoDto());
       cfdiDto.getComplemento().setPagos(cfdiPagos);
       complemento.setCfdi(cfdiDto);

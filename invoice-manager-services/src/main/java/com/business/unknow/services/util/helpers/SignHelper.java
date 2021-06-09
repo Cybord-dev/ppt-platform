@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
@@ -23,14 +22,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.ssl.PKCS8Key;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SignHelper {
 
-  private static final Logger log = LoggerFactory.getLogger(SignHelper.class);
-
-  private String getKey(String key) throws InvoiceCommonException {
+  private String getKey(String key) {
     byte[] decode = Base64.getDecoder().decode(key.getBytes(StandardCharsets.UTF_8));
     return DatatypeConverter.printBase64Binary(decode);
   }
@@ -44,8 +39,8 @@ public class SignHelper {
       PrivateKey pk = pkcs8.getPrivateKey();
       Signature signature = Signature.getInstance("SHA256withRSA");
       signature.initSign(pk);
-      signature.update(cadena.getBytes("UTF-8"));
-      return new String(DatatypeConverter.printBase64Binary(signature.sign()));
+      signature.update(cadena.getBytes(StandardCharsets.UTF_8));
+      return DatatypeConverter.printBase64Binary(signature.sign());
     } catch (GeneralSecurityException | IOException e) {
       e.printStackTrace();
       throw new InvoiceCommonException(e.getMessage());
@@ -55,9 +50,6 @@ public class SignHelper {
   public String getCadena(String xml) throws InvoiceCommonException {
     try {
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
-      // InputStream inputStream =
-      // Thread.currentThread().getContextClassLoader().getResourceAsStream(FacturaConstants.CADENA_ORIGINAL);
-      // Source xslt = new StreamSource(inputStream);
       Source xslt = new StreamSource(new File(FacturaConstants.CADENA_ORIGINAL));
       Transformer transformer = transformerFactory.newTransformer(xslt);
       Source xmlSource = new StreamSource(new StringReader(xml));
@@ -65,10 +57,8 @@ public class SignHelper {
       Result out = new StreamResult(baos);
       transformer.transform(xmlSource, out);
       byte[] cadenaOriginalArray = baos.toByteArray();
-      String cadOrig = new String(cadenaOriginalArray, FacturaConstants.SYSTEM_CODIFICATION);
-      log.debug(cadOrig);
-      return cadOrig;
-    } catch (UnsupportedEncodingException | TransformerException e) {
+      return new String(cadenaOriginalArray, StandardCharsets.UTF_8);
+    } catch (TransformerException e) {
       throw new InvoiceCommonException(e.getMessage());
     }
   }

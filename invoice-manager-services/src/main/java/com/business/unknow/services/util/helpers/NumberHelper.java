@@ -7,10 +7,6 @@ public class NumberHelper {
 
   public Double assignPrecision(Double number, int scale) {
     BigDecimal tempBig = new BigDecimal(Double.toString(number));
-    return tempBig.setScale(scale, BigDecimal.ROUND_HALF_EVEN).doubleValue();
-  }
-
-  public BigDecimal assignBigDecimalPrecision(BigDecimal number, int scale) {
-    return number.setScale(scale, RoundingMode.DOWN);
+    return tempBig.setScale(scale, RoundingMode.HALF_EVEN).doubleValue();
   }
 }

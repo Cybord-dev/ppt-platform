@@ -26,7 +26,6 @@ public  class Constants {
 		public static final String FACTURA_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 		public static final String FECHA_ATTRIBUTE = "Fecha";
 		public static final String SELLO_ATTRIBUTE = "Sello";
-		public static final String SYSTEM_CODIFICATION = "UTF-8";
 
 		public static final String CADENA_ORIGINAL = "src/main/resources/factura-xslt/cadenaoriginal_3_3.xslt";
 	}

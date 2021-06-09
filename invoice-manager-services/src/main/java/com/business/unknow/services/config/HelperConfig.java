@@ -34,11 +34,6 @@ public class HelperConfig {
   }
 
   @Bean
-  public StringHelper getStringHelper() {
-    return new StringHelper();
-  }
-
-  @Bean
   public SignHelper getSignHelper() {
     return new SignHelper();
   }

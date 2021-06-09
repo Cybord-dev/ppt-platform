@@ -9,7 +9,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,11 +23,6 @@ import org.xml.sax.SAXException;
 
 public class CdfiHelper {
 
-  public boolean getRandomBoolean() {
-    Random random = new Random();
-    return random.nextBoolean();
-  }
-
   public String changeDate(String xml, Date fechaTimbrado) throws InvoiceCommonException {
     try {
       SimpleDateFormat format = new SimpleDateFormat(FacturaConstants.FACTURA_DATE_FORMAT);
@@ -41,8 +35,7 @@ public class CdfiHelper {
       doc.getDocumentElement().setAttribute(FacturaConstants.FECHA_ATTRIBUTE, datetime);
       StringWriter writer = new StringWriter();
       transformer.transform(new DOMSource(doc), new StreamResult(writer));
-      String output = writer.getBuffer().toString();
-      return output;
+      return writer.getBuffer().toString();
     } catch (ParserConfigurationException | IOException | TransformerException | SAXException e) {
       throw new InvoiceCommonException(e.getMessage());
     }
@@ -60,8 +53,7 @@ public class CdfiHelper {
       transformer = tf.newTransformer();
       StringWriter writer = new StringWriter();
       transformer.transform(new DOMSource(doc), new StreamResult(writer));
-      String output = writer.getBuffer().toString();
-      return output;
+      return writer.getBuffer().toString();
     } catch (ParserConfigurationException | IOException | TransformerException | SAXException e) {
       throw new InvoiceCommonException(e.getMessage());
     }

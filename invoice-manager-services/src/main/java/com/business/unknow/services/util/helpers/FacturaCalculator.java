@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class FacturaCalculator {
 
-  private DateHelper dateHelper = new DateHelper();
+  private final DateHelper dateHelper = new DateHelper();
 
   public String folioEncrypt(FacturaDto dto) throws InvoiceManagerException {
     SimpleDateFormat dt1 = new SimpleDateFormat(Constants.DATE_STANDAR_FORMAT);
@@ -22,21 +22,13 @@ public class FacturaCalculator {
       MessageDigest md = MessageDigest.getInstance("MD5");
       byte[] bytes = md.digest(cadena.getBytes());
       StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < bytes.length; i++) {
-        sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+      for (byte aByte : bytes) {
+        sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
       }
       return sb.toString();
     } catch (NoSuchAlgorithmException e) {
       throw new InvoiceManagerException(
           e.getMessage(), e.getCause().toString(), Constants.INTERNAL_ERROR);
-    }
-  }
-
-  public void assignFolioInFacturaDtoEncrypt(FacturaDto dto) throws InvoiceManagerException {
-    String folio = folioEncrypt(dto);
-    dto.setFolio(folio);
-    if (dto.getCfdi() != null) {
-      dto.getCfdi().setFolio(folio);
     }
   }
 

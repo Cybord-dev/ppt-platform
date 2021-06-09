@@ -20,7 +20,7 @@ import com.business.unknow.services.util.helpers.FacturaHelper;
 import com.business.unknow.services.util.helpers.FileHelper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -84,7 +84,7 @@ public class FacturacionModernaExecutor extends AbstractPackExecutor {
         qr.setData(response.getPng());
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(
-            Base64.getDecoder().decode(response.getPng().getBytes(Charset.forName("UTF-8"))));
+            Base64.getDecoder().decode(response.getPng().getBytes(StandardCharsets.UTF_8)));
         qr.setOutputStream(outputStream);
         files.add(qr);
       }
@@ -96,7 +96,7 @@ public class FacturacionModernaExecutor extends AbstractPackExecutor {
         xml.setData(response.getXml());
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(
-            Base64.getDecoder().decode(response.getXml().getBytes(Charset.forName("UTF-8"))));
+            Base64.getDecoder().decode(response.getXml().getBytes(StandardCharsets.UTF_8)));
         xml.setOutputStream(outputStream);
         files.add(xml);
       }
@@ -104,7 +104,7 @@ public class FacturacionModernaExecutor extends AbstractPackExecutor {
 
     } catch (IOException i) {
       throw new InvoiceManagerException(
-          String.format("Error exporting s3 file", i.getMessage(), i.getMessage()),
+          String.format("Error exporting s3 file %s", i.getMessage()),
           i.getMessage(),
           HttpStatus.SC_CONFLICT);
     } catch (FacturaModernaClientException e) {

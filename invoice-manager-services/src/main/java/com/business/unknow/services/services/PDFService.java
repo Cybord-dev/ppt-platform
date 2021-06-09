@@ -1,4 +1,3 @@
-/** */
 package com.business.unknow.services.services;
 
 import com.business.unknow.builder.FacturaPdfModelDtoBuilder;
@@ -36,7 +35,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-/** @author ralfdemoledor */
 @Service
 public class PDFService {
 
@@ -122,71 +120,6 @@ public class PDFService {
     fBuilder.setRegimenFiscalDesc(regimenFiscal == null ? null : regimenFiscal.getDescripcion());
     fBuilder.setUsoCfdiDesc(usoCfdi == null ? null : usoCfdi.getDescripcion());
 
-    fBuilder.setCadenaOriginal(facturaDto.getCadenaOriginalTimbrado());
-
-    return fBuilder.build();
-  }
-
-  public FacturaPdfModelDto getPdfFromFactura(FacturaContext context)
-      throws InvoiceCommonException {
-
-    FacturaPdfModelDtoBuilder fBuilder = new FacturaPdfModelDtoBuilder();
-    FacturaDto facturaDto = context.getFacturaDto();
-
-    fBuilder.setFactura(getCfdiModelFromContext(context));
-    try {
-      fBuilder.setQr(
-          filesService
-              .getFacturaFileByFolioAndType(facturaDto.getFolio(), TipoArchivoEnum.QR.name())
-              .getData());
-    } catch (InvoiceManagerException e) {
-      log.info(String.format("%s file for Qr not found", facturaDto.getFolio()));
-    }
-    fBuilder
-        .setMetodoPagoDesc(
-            MetodosPagoEnum.findByValor(facturaDto.getCfdi().getMetodoPago()).getDescripcion())
-        .setLogotipo(
-            filesService
-                .findResourceFileByResourceReferenceAndType(
-                    TipoRecursoEnum.EMPRESA.name(),
-                    ResourceFileEnum.LOGO.name(),
-                    facturaDto.getRfcEmisor())
-                .map(q -> q.getData())
-                .orElse(null))
-        .setTipoDeComprobanteDesc(
-            TipoComprobanteEnum.findByValor(facturaDto.getCfdi().getTipoDeComprobante())
-                .getDescripcion())
-        .setTotalDesc(
-            numberTranslatorHelper.getStringNumber(
-                facturaDto.getCfdi().getTotal(), facturaDto.getCfdi().getMoneda()))
-        .setSubTotalDesc(
-            numberTranslatorHelper.getStringNumber(
-                facturaDto.getCfdi().getSubtotal(), facturaDto.getCfdi().getMoneda()));
-
-    fBuilder.setDireccionEmisor(facturaDto.getCfdi().getEmisor().getDireccion());
-    fBuilder.setDireccionReceptor(facturaDto.getCfdi().getReceptor().getDireccion());
-
-    RegimenFiscal regimenFiscal =
-        catalogCacheService
-            .getRegimenFiscalPagoMappings()
-            .get(facturaDto.getCfdi().getEmisor().getRegimenFiscal());
-    UsoCfdi usoCfdi =
-        catalogCacheService
-            .getUsoCfdiMappings()
-            .get(facturaDto.getCfdi().getReceptor().getUsoCfdi());
-    if (facturaDto.getTipoDocumento().equals(TipoDocumentoEnum.COMPLEMENTO.getDescripcion())) {
-      FormaPago formaPago =
-          catalogCacheService
-              .getFormaPagoMappings()
-              .get(facturaDto.getCfdi().getComplemento().getPagos().get(0).getFormaPago());
-      fBuilder.setFormaPagoDesc(formaPago == null ? null : formaPago.getDescripcion());
-    } else {
-      FormaPago formaPago =
-          catalogCacheService.getFormaPagoMappings().get(facturaDto.getCfdi().getFormaPago());
-      fBuilder.setFormaPagoDesc(formaPago == null ? null : formaPago.getDescripcion());
-    }
-    fBuilder.setRegimenFiscalDesc(regimenFiscal == null ? null : regimenFiscal.getDescripcion());
-    fBuilder.setUsoCfdiDesc(usoCfdi == null ? null : usoCfdi.getDescripcion());
     fBuilder.setCadenaOriginal(facturaDto.getCadenaOriginalTimbrado());
 
     return fBuilder.build();

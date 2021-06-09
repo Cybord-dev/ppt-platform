@@ -16,6 +16,7 @@ public final class NamespacePrefixMapperImpl extends NamespacePrefixMapper {
     return (value != null) ? value : suggestion;
   }
 
+  @Override
   public String[] getPreDeclaredNamespaceUris() {
     return new String[0];
   }

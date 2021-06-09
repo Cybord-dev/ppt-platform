@@ -141,24 +141,22 @@ public class TimbradoExecutorService {
   public void updateCanceladoValues(FacturaContext context) {
     repository.save(mapper.getEntityFromFacturaDto(context.getFacturaDto()));
     if (context
-        .getFacturaDto()
-        .getTipoDocumento()
-        .equals(TipoDocumentoEnum.COMPLEMENTO.getDescripcion())) {
-
-      if (context.getFacturaDto().getCfdi() != null
-          && context.getFacturaDto().getCfdi().getComplemento() != null
-          && context.getFacturaDto().getCfdi().getComplemento().getPagos() != null) {
-        for (CfdiPagoDto cfdiPagoDto :
-            context.getFacturaDto().getCfdi().getComplemento().getPagos()) {
-          CfdiPago cfdiPago = cfdiMapper.getEntityFromCdfiPagosDto(cfdiPagoDto);
-          cfdiPago.setValido(false);
-          cfdiPagoRepository.save(cfdiPago);
-          if (cfdiPagoDto.getImporteSaldoAnterior().compareTo(BigDecimal.ZERO) > 0) {
-            Optional<Factura> factura = repository.findByFolio(cfdiPagoDto.getFolio());
-            if (factura.isPresent()) {
-              factura.get().setSaldoPendiente(cfdiPagoDto.getImporteSaldoAnterior());
-              repository.save(factura.get());
-            }
+            .getFacturaDto()
+            .getTipoDocumento()
+            .equals(TipoDocumentoEnum.COMPLEMENTO.getDescripcion())
+        && context.getFacturaDto().getCfdi() != null
+        && context.getFacturaDto().getCfdi().getComplemento() != null
+        && context.getFacturaDto().getCfdi().getComplemento().getPagos() != null) {
+      for (CfdiPagoDto cfdiPagoDto :
+          context.getFacturaDto().getCfdi().getComplemento().getPagos()) {
+        CfdiPago cfdiPago = cfdiMapper.getEntityFromCdfiPagosDto(cfdiPagoDto);
+        cfdiPago.setValido(false);
+        cfdiPagoRepository.save(cfdiPago);
+        if (cfdiPagoDto.getImporteSaldoAnterior().compareTo(BigDecimal.ZERO) > 0) {
+          Optional<Factura> factura = repository.findByFolio(cfdiPagoDto.getFolio());
+          if (factura.isPresent()) {
+            factura.get().setSaldoPendiente(cfdiPagoDto.getImporteSaldoAnterior());
+            repository.save(factura.get());
           }
         }
       }

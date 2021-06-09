@@ -20,7 +20,7 @@ import com.business.unknow.services.util.helpers.FacturaHelper;
 import com.business.unknow.services.util.helpers.FileHelper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -126,7 +126,7 @@ public class NtinkExecutorService extends AbstractPackExecutor {
         xml.setData(fileHelper.stringEncodeBase64(response.getCfdi()));
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(
-            Base64.getDecoder().decode(xml.getData().getBytes(Charset.forName("UTF-8"))));
+            Base64.getDecoder().decode(xml.getData().getBytes(StandardCharsets.UTF_8)));
         xml.setOutputStream(outputStream);
         files.add(xml);
       }
@@ -137,13 +137,12 @@ public class NtinkExecutorService extends AbstractPackExecutor {
       qr.setFileFormat(TipoArchivoEnum.QR);
       qr.setData(response.getQrCodeBase64());
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-      outputStream.write(
-          Base64.getDecoder().decode(qr.getData().getBytes(Charset.forName("UTF-8"))));
+      outputStream.write(Base64.getDecoder().decode(qr.getData().getBytes(StandardCharsets.UTF_8)));
       qr.setOutputStream(outputStream);
       files.add(qr);
     } catch (IOException i) {
       throw new InvoiceManagerException(
-          String.format("Error exporting s3 file", i.getMessage(), i.getMessage()),
+          String.format("Error exporting s3 file %s", i.getMessage()),
           i.getMessage(),
           HttpStatus.SC_CONFLICT);
     } catch (NtlinkClientException e) {

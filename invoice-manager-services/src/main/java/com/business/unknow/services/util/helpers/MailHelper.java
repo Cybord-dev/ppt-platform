@@ -35,6 +35,7 @@ public class MailHelper {
         Session.getInstance(
             props,
             new javax.mail.Authenticator() {
+              @Override
               protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(
                     emailConfig.getEmisor(), emailConfig.getPwEmisor());

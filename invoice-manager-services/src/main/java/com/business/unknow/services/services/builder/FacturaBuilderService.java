@@ -81,20 +81,6 @@ public class FacturaBuilderService extends AbstractBuilderService {
         .build();
   }
 
-  public FacturaContext buildFacturaContextPagoPueCreation(String folio, PagoDto pagoDto) {
-    // List<Pago> pagos = pagoRepository.findByFolio(folio);
-    //		Optional<Factura> factura = repository.findByFolio(folio);
-    //		Optional<Pago> pagoCredito = pagos.stream()
-    //				.filter(p -> p.getFormaPago().equals(FormaPagoEnum.CREDITO.getPagoValue())).findFirst();
-    //		return new FacturaContextBuilder().setPagos(Arrays.asList(pagoDto))
-    //				.setPagos(pagoMapper.getPagosDtoFromEntities(pagos)).setCurrentPago(pagoDto)
-    //				.setFacturaDto(factura.isPresent() ? mapper.getFacturaDtoFromEntity(factura.get()) : null)
-    //				.setPagoCredito(pagoCredito.isPresent() ?
-    // pagoMapper.getPagoDtoFromEntity(pagoCredito.get()) : null)
-    //				.build();
-    return null;
-  }
-
   public FacturaDto buildFacturaDtoPagoPpdCreation(FacturaDto factura, PagoDto pago) {
     return new FacturaBuilder()
         .setTotal(pago.getMonto())
@@ -147,7 +133,7 @@ public class FacturaBuilderService extends AbstractBuilderService {
   }
 
   public List<ConceptoDto> buildFacturaComplementoConceptos() {
-    List<ConceptoDto> conceptos = new ArrayList<ConceptoDto>();
+    List<ConceptoDto> conceptos = new ArrayList<>();
     ConceptoDtoBuilder conceptoBuilder =
         new ConceptoDtoBuilder()
             .setCantidad(new BigDecimal(ComplementoPpdDefaults.CANTIDAD))
@@ -160,8 +146,7 @@ public class FacturaBuilderService extends AbstractBuilderService {
     return conceptos;
   }
 
-  public List<CfdiPagoDto> buildFacturaComplementoPagos(
-      FacturaDto complemento, PagoDto pagoDto, List<FacturaDto> dtos)
+  public List<CfdiPagoDto> buildFacturaComplementoPagos(PagoDto pagoDto, List<FacturaDto> dtos)
       throws InvoiceManagerException {
     List<CfdiPagoDto> cfdiPagos = new ArrayList<CfdiPagoDto>();
     for (FacturaDto dto : dtos) {

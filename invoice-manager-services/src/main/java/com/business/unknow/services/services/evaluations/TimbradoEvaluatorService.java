@@ -5,7 +5,6 @@ import com.business.unknow.model.error.InvoiceManagerException;
 import com.business.unknow.rules.suites.TimbradoSuite;
 import com.business.unknow.rules.suites.facturas.CancelacionSuite;
 import org.jeasy.rules.api.Facts;
-import org.jeasy.rules.api.RulesEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,6 @@ public class TimbradoEvaluatorService extends AbstractEvaluatorService {
   @Autowired private CancelacionSuite cancelacionSuite;
 
   @Autowired private TimbradoSuite facturarSuite;
-
-  @Autowired private RulesEngine rulesEngine;
 
   public void facturaCancelacionValidation(FacturaContext facturaContext)
       throws InvoiceManagerException {

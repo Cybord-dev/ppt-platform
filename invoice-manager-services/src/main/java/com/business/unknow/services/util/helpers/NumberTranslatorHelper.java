@@ -1,33 +1,33 @@
 package com.business.unknow.services.util.helpers;
 
-import com.business.unknow.model.error.InvoiceCommonException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 public class NumberTranslatorHelper {
 
   private String cantidadConLetra(String s) {
     StringBuilder result = new StringBuilder();
-    BigDecimal totalBigDecimal = new BigDecimal(s).setScale(2, BigDecimal.ROUND_DOWN);
+    BigDecimal totalBigDecimal = new BigDecimal(s).setScale(2, RoundingMode.DOWN);
     long parteEntera = totalBigDecimal.toBigInteger().longValue();
-    int triUnidades = (int) ((parteEntera % 1000));
-    int triMiles = (int) ((parteEntera / 1000) % 1000);
-    int triMillones = (int) ((parteEntera / 1000000) % 1000);
-    int triMilMillones = (int) ((parteEntera / 1000000000) % 1000);
+    int triUnidades = (int) (parteEntera % 1000);
+    int triMiles = (int) (parteEntera / 1000) % 1000;
+    int triMillones = (int) (parteEntera / 1000000) % 1000;
+    int triMilMillones = (int) (parteEntera / 1000000000) % 1000;
 
     if (parteEntera == 0) {
       result.append("Cero ");
       return result.toString();
     }
 
-    if (triMilMillones > 0) result.append(triTexto(triMilMillones).toString() + "Mil ");
-    if (triMillones > 0) result.append(triTexto(triMillones).toString());
+    if (triMilMillones > 0) result.append(triTexto(triMilMillones) + "Mil ");
+    if (triMillones > 0) result.append(triTexto(triMillones));
 
     if (triMilMillones == 0 && triMillones == 1) result.append("Millón ");
     else if (triMilMillones > 0 || triMillones > 0) result.append("Millones ");
 
-    if (triMiles > 0) result.append(triTexto(triMiles).toString() + "Mil ");
-    if (triUnidades > 0) result.append(triTexto(triUnidades).toString());
+    if (triMiles > 0) result.append(triTexto(triMiles) + "Mil ");
+    if (triUnidades > 0) result.append(triTexto(triUnidades));
 
     return result.toString();
   }
@@ -170,9 +170,8 @@ public class NumberTranslatorHelper {
     return result;
   }
 
-  public String getStringNumber(BigDecimal number, String moneda) throws InvoiceCommonException {
+  public String getStringNumber(BigDecimal number, String moneda) {
     String cambio;
-    System.out.println(moneda);
     if (moneda.equals("MXN")) {
       cambio = "Pesos ";
     } else if (moneda.equals("USD")) {

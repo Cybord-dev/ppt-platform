@@ -23,7 +23,7 @@ public class ContribuyenteService {
   public Page<ContribuyenteDto> getContribuyentesByParametros(
       Optional<String> rfc, Optional<String> razonSocial, int page, int size) {
     Page<Contribuyente> result;
-    if (!razonSocial.isPresent() && !rfc.isPresent()) {
+    if (razonSocial.isEmpty() && rfc.isEmpty()) {
       result = repository.findAll(PageRequest.of(page, size));
     } else if (rfc.isPresent()) {
       result =
@@ -56,7 +56,7 @@ public class ContribuyenteService {
   }
 
   public ContribuyenteDto updateContribuyenteInfo(ContribuyenteDto contribuyenteDto, String rfc) {
-    Contribuyente contribuyente =
+    var contribuyente =
         repository
             .findByRfc(rfc)
             .orElseThrow(

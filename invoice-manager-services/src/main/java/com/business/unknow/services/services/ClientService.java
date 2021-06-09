@@ -29,9 +29,9 @@ public class ClientService {
 
   @Autowired private ClientMapper mapper;
 
-  private ClienteValidator clientValidator = new ClienteValidator();
+  private final ClienteValidator clientValidator = new ClienteValidator();
 
-  private ContactoHelper contactoHelper = new ContactoHelper();
+  private final ContactoHelper contactoHelper = new ContactoHelper();
 
   public Page<ClientDto> getClientsByParametros(
       Optional<String> promotor,
@@ -65,7 +65,7 @@ public class ClientService {
   }
 
   public ClientDto getClientByRFC(String rfc) {
-    Client client =
+    var client =
         repository
             .findByRfc(rfc)
             .orElseThrow(
@@ -101,8 +101,8 @@ public class ClientService {
             cliente.getInformacionFiscal().getRfc(),
             cliente.getCorreoPromotor(),
             cliente.getPorcentajeContacto()));
-    Client clientEntity = mapper.getEntityFromClientDto(cliente);
-    if (!entity.isPresent() && !client.isPresent()) {
+    var clientEntity = mapper.getEntityFromClientDto(cliente);
+    if (entity.isEmpty() && client.isEmpty()) {
       cliente.getInformacionFiscal().setRfc(cliente.getInformacionFiscal().getRfc().toUpperCase());
     } else if (entity.isPresent() && client.isPresent()) {
       throw new ResponseStatusException(
@@ -110,7 +110,7 @@ public class ClientService {
           String.format(
               "El RFC %s  para  el promotor %s ya existe en el sistema",
               cliente.getInformacionFiscal().getRfc(), cliente.getCorreoPromotor()));
-    } else if (entity.isPresent() && !client.isPresent()) {
+    } else if (entity.isPresent() && client.isEmpty()) {
       clientEntity.setInformacionFiscal(entity.get());
     }
     clientEntity.setActivo(false);
@@ -133,7 +133,7 @@ public class ClientService {
   }
 
   public void deleteClientInfo(String rfc) {
-    Client dbClient =
+    var dbClient =
         repository
             .findByRfc(rfc)
             .orElseThrow(

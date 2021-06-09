@@ -37,7 +37,7 @@ public class CuentaBancariaService {
 
     log.info("Finding facturas by {}", parameters);
 
-    return new Specification<CuentaBancaria>() {
+    return new Specification<>() {
 
       private static final long serialVersionUID = -7435096122716669730L;
 
@@ -78,8 +78,8 @@ public class CuentaBancariaService {
     int page =
         (parameters.get("page") == null) || parameters.get("page").equals("")
             ? 0
-            : Integer.valueOf(parameters.get("page"));
-    int size = (parameters.get("size") == null) ? 10 : Integer.valueOf(parameters.get("size"));
+            : Integer.parseInt(parameters.get("page"));
+    int size = (parameters.get("size") == null) ? 10 : Integer.parseInt(parameters.get("size"));
     result =
         repository.findAll(
             buildSearchFilters(parameters),
@@ -114,8 +114,7 @@ public class CuentaBancariaService {
     }
   }
 
-  public CuentaBancariaDto updateCuentaBancaria(
-      Integer cuentaId, CuentaBancariaDto cuentaBancariaDto) {
+  public CuentaBancariaDto updateCuentaBancaria(CuentaBancariaDto cuentaBancariaDto) {
     CuentaBancaria entity =
         repository
             .findById(cuentaBancariaDto.getId())

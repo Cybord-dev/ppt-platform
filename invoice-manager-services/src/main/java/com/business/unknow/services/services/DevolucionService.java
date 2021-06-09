@@ -1,4 +1,3 @@
-/** */
 package com.business.unknow.services.services;
 
 import com.business.unknow.enums.TipoDocumentoEnum;
@@ -7,7 +6,6 @@ import com.business.unknow.model.dto.FacturaDto;
 import com.business.unknow.model.dto.pagos.PagoDevolucionDto;
 import com.business.unknow.model.dto.services.DevolucionDto;
 import com.business.unknow.model.error.InvoiceManagerException;
-import com.business.unknow.services.entities.Client;
 import com.business.unknow.services.entities.Devolucion;
 import com.business.unknow.services.entities.PagoDevolucion;
 import com.business.unknow.services.mapper.DevolucionMapper;
@@ -19,6 +17,7 @@ import com.business.unknow.services.services.builder.DevolucionesBuilderService;
 import com.business.unknow.services.services.executor.DevolucionExecutorService;
 import com.business.unknow.services.util.validators.DevolucionValidator;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-/** @author ralfdemoledor */
 @Service
 public class DevolucionService {
 
@@ -52,11 +50,11 @@ public class DevolucionService {
 
   @Autowired private DevolucionExecutorService devolucionExecutorService;
 
-  private DevolucionValidator devolucionValidator = new DevolucionValidator();
+  private final DevolucionValidator devolucionValidator = new DevolucionValidator();
 
   public Page<DevolucionDto> getDevolucionesByParams(
       Optional<String> receptorType, Optional<String> idReceptor, int page, int size) {
-    Page<Devolucion> result = null;
+    Page<Devolucion> result;
     if (!receptorType.isPresent() && !idReceptor.isPresent()) {
       result = repository.findAll(PageRequest.of(page, size));
     } else {
@@ -84,7 +82,7 @@ public class DevolucionService {
     if (result == null || result.compareTo(BigDecimal.ZERO) == 0) {
       return new BigDecimal(0.0);
     } else {
-      return result.setScale(2, BigDecimal.ROUND_DOWN);
+      return result.setScale(2, RoundingMode.DOWN);
     }
   }
 
@@ -130,7 +128,6 @@ public class DevolucionService {
       if ("RECHAZADO".equalsIgnoreCase(dto.getStatus())) {
         repository.deleteById(dto.getIdDevolucion()); // returns ammount to account
       } else {
-        // TODO include here expenses in amounts table
         pagoDevolucion.get().setFechaPago(dto.getFechaPago());
         pagoDevolucion.get().setRfcEmpresa(dto.getRfcEmpresa());
         pagoDevolucion.get().setCuentaPago(dto.getCuentaPago());
@@ -146,7 +143,7 @@ public class DevolucionService {
   }
 
   public void generarDevoluciones(FacturaDto facturaDto) throws InvoiceManagerException {
-    Client client =
+    var client =
         clientRepository
             .findByCorreoPromotorAndClient(
                 facturaDto.getSolicitante(), facturaDto.getRfcRemitente())
@@ -178,7 +175,7 @@ public class DevolucionService {
 
   public PagoDevolucionDto findDevolucionesByfacturaAndTipoReceptor(
       String folio, String tipoReceptor) {
-    PagoDevolucion pagoDevolucion =
+    var pagoDevolucion =
         pagoDevolucionRepository
             .findByFolioFacturaAndTipoReceptor(folio, tipoReceptor)
             .orElseThrow(
@@ -200,7 +197,7 @@ public class DevolucionService {
       String idReceptor,
       int page,
       int size) {
-    Page<PagoDevolucion> result = new PageImpl<>(new ArrayList<>());
+    Page<PagoDevolucion> result;
     if (folio.isPresent()) {
       result = pagoDevolucionRepository.findByFolioFactura(folio.get(), PageRequest.of(0, 10));
     } else if (tipoReceptor.length() > 0 && idReceptor.length() > 0) {

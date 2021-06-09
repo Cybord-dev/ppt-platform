@@ -196,10 +196,7 @@ public class PDFService {
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       pdfGenerator.render(inputReader, outputStream, templateReader);
       filesService.upsertS3File(
-          S3BucketsEnum.FACTURAS,
-          TipoArchivoEnum.PDF.getFormat(),
-          factura.getFolio(),
-          outputStream);
+          S3BucketsEnum.CFDIS, TipoArchivoEnum.PDF.getFormat(), factura.getFolio(), outputStream);
       String data = Base64.getEncoder().encodeToString(outputStream.toByteArray());
       FacturaFileDto factFile = new FacturaFileDto();
       factFile.setData(data);
@@ -272,7 +269,7 @@ public class PDFService {
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       pdfGenerator.render(inputReader, outputStream, templateReader);
       filesService.upsertS3File(
-          S3BucketsEnum.FACTURAS,
+          S3BucketsEnum.CFDIS,
           TipoArchivoEnum.PDF.getFormat(),
           context.getFacturaDto().getFolio(),
           outputStream);

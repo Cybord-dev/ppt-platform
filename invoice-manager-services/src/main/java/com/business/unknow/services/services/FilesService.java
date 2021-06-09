@@ -25,7 +25,7 @@ public class FilesService {
     try {
       String data =
           s3FileService.getS3File(
-              S3BucketsEnum.FACTURAS, TipoArchivoEnum.valueOf(type).getFormat(), folio);
+              S3BucketsEnum.CFDIS, TipoArchivoEnum.valueOf(type).getFormat(), folio);
       FacturaFileDto fileDto = new FacturaFileDto();
       fileDto.setFolio(folio);
       fileDto.setData(data);
@@ -44,7 +44,7 @@ public class FilesService {
 
   public void deleteS3File(String folio, String type) throws InvoiceManagerException {
     s3FileService.deleteS3File(
-        S3BucketsEnum.FACTURAS, TipoArchivoEnum.valueOf(type).getFormat(), folio);
+        S3BucketsEnum.CFDIS, TipoArchivoEnum.valueOf(type).getFormat(), folio);
   }
 
   public ResourceFileDto getResourceFileByResourceReferenceAndType(

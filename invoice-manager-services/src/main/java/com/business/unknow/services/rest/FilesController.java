@@ -55,7 +55,7 @@ public class FilesController {
       ByteArrayOutputStream bos = new ByteArrayOutputStream();
       bos.write(Base64.getDecoder().decode(facturaFile.getData()));
       service.upsertS3File(
-          S3BucketsEnum.FACTURAS,
+          S3BucketsEnum.CFDIS,
           TipoArchivoEnum.valueOf(facturaFile.getTipoArchivo()).getFormat(),
           facturaFile.getFolio(),
           bos);

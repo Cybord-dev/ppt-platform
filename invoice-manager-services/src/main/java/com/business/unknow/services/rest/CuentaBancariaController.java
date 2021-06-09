@@ -53,8 +53,7 @@ public class CuentaBancariaController {
   @PutMapping("/cuentas/{cuentaId}")
   public ResponseEntity<CuentaBancariaDto> upadteCuentaBancaria(
       @PathVariable Integer cuentaId, @RequestBody @Valid CuentaBancariaDto cuentaBancariaDto) {
-    return new ResponseEntity<>(
-        service.updateCuentaBancaria(cuentaId, cuentaBancariaDto), HttpStatus.OK);
+    return new ResponseEntity<>(service.updateCuentaBancaria(cuentaBancariaDto), HttpStatus.OK);
   }
 
   @DeleteMapping("/cuentas/{id}")

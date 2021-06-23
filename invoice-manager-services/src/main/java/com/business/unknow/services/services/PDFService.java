@@ -8,6 +8,7 @@ import com.business.unknow.model.context.FacturaContext;
 import com.business.unknow.model.dto.FacturaDto;
 import com.business.unknow.model.dto.FacturaPdfModelDto;
 import com.business.unknow.model.dto.files.FacturaFileDto;
+import com.business.unknow.model.dto.files.ResourceFileDto;
 import com.business.unknow.model.error.InvoiceCommonException;
 import com.business.unknow.model.error.InvoiceManagerException;
 import com.business.unknow.services.entities.catalogs.FormaPago;
@@ -69,17 +70,21 @@ public class PDFService {
     } catch (InvoiceManagerException e) {
       log.info(String.format("%s file for Qr not found", facturaDto.getFolio()));
     }
+    ResourceFileDto logotipo = null;
+    try {
+      logotipo =
+          filesService.getResourceFileByResourceReferenceAndType(
+              TipoRecursoEnum.EMPRESAS.name(),
+              ResourceFileEnum.LOGO.name(),
+              facturaDto.getRfcEmisor());
+
+    } catch (InvoiceManagerException ex) {
+      log.info(String.format("%s file for Logo not found", facturaDto.getFolio()));
+    }
     fBuilder
         .setMetodoPagoDesc(
             MetodosPagoEnum.findByValor(facturaDto.getCfdi().getMetodoPago()).getDescripcion())
-        .setLogotipo(
-            filesService
-                .findResourceFileByResourceReferenceAndType(
-                    TipoRecursoEnum.EMPRESA.name(),
-                    ResourceFileEnum.LOGO.name(),
-                    facturaDto.getRfcEmisor())
-                .map(q -> q.getData())
-                .orElse(null))
+        .setLogotipo(logotipo.getData())
         .setTipoDeComprobanteDesc(
             TipoComprobanteEnum.findByValor(facturaDto.getCfdi().getTipoDeComprobante())
                 .getDescripcion())

@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,14 +65,9 @@ public class FilesController {
   }
 
   @PostMapping("/recursos/{recurso}/files")
-  public ResponseEntity<Void> insertResourceFile(@RequestBody @Valid ResourceFileDto resourceFile) {
+  public ResponseEntity<Void> insertResourceFile(@RequestBody @Valid ResourceFileDto resourceFile)
+      throws InvoiceManagerException {
     service.upsertResourceFile(resourceFile);
     return new ResponseEntity<>(HttpStatus.CREATED);
-  }
-
-  @DeleteMapping("/recursos/files/{id}")
-  public ResponseEntity<Void> deleteRecursoFile(@PathVariable Integer id) {
-    service.deleteResourceFile(id);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

@@ -17,12 +17,12 @@ public class AbstractBuilderService {
       throws InvoiceManagerException {
     ResourceFileDto certFile =
         service.getResourceFileByResourceReferenceAndType(
-            TipoRecursoEnum.EMPRESA.name(),
+            TipoRecursoEnum.EMPRESAS.name(),
             facturaDto.getRfcEmisor(),
             ResourceFileEnum.CERT.name());
     ResourceFileDto keyFile =
         service.getResourceFileByResourceReferenceAndType(
-            TipoRecursoEnum.EMPRESA.name(), facturaDto.getRfcEmisor(), ResourceFileEnum.KEY.name());
+            TipoRecursoEnum.EMPRESAS.name(), facturaDto.getRfcEmisor(), ResourceFileEnum.KEY.name());
     empresaDto.setCertificado(certFile.getData());
     empresaDto.setLlavePrivada(keyFile.getData());
   }

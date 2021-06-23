@@ -67,7 +67,7 @@ public class Constants {
 		public static final String TIMBRADO_DATOS_VALIDATION = "FacturaDatosValidation";
 		public static final String TIMBRADO_DATOS_VALIDATION_RULE = "FacturaDatosValidationRule";
 		public static final String TIMBRADO_DATOS_VALIDATION_RULE_DESC = "Los datos de la factura tienen una inconsistencia.";
-		public static final String TIMBRADO_PADRE_STATUS = "FacturaPadreStatusValidation";
+		public static final String - = "FacturaPadreStatusValidation";
 		public static final String TIMBRADO_PADRE_STATUS_RULE = "FacturaPadreStatusValidationRule";
 		public static final String TIMBRADO_PAGO_VALIDATION = "FacturaPagoValidation";
 		public static final String TIMBRADO_PAGO_VALIDATION_RULE = "FacturaPagoValidationRule";

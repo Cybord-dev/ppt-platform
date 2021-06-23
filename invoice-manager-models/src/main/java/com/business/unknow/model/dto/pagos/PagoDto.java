@@ -32,6 +32,7 @@ public class PagoDto implements Serializable {
 	private Boolean revision2;
 	private String revisor1;
 	private String revisor2;
+	private String fileFormat;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.JSON_DATE_FORMAT)
 	private Date fechaPago;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.JSON_DATE_FORMAT)
@@ -209,6 +210,14 @@ public class PagoDto implements Serializable {
 
 	public void setComprobante(String comprobante) {
 		this.comprobante = comprobante;
+	}
+
+	public void setFileFormat(String fileFormat) {
+		this.fileFormat = fileFormat;
+	}
+
+	public String getFileFormat() {
+		return fileFormat;
 	}
 
 	@Override

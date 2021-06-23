@@ -2,25 +2,22 @@ package com.business.unknow.enums;
 
 public enum TipoArchivoEnum {
 
-	XML(1, "XML", ".xml", "text/plain"),
-	QR(2, "QR", ".png", "N/A"),
-	PDF(3, "PDF", ".pdf", "application/pdf"),
-	TXT(4, "TXT", ".txt", "text/plain");
+	XML( "XML", ".xml", "text/plain"),
+	QR( "QR", ".png", "N/A"),
+	PDF( "PDF", ".pdf", "application/pdf"),
+	TXT( "TXT", ".txt", "text/plain"),
+	CERT( "CERT", ".crt", "N/A"),
+	KEY( "KEY", ".key", "N/A");
 
-	private Integer valor;
+
 	private String descripcion;
 	private String format;
 	private String byteArrayData;
 
-	private TipoArchivoEnum(Integer valor, String descripcion, String format, String byteArrayData) {
-		this.valor = valor;
+	private TipoArchivoEnum( String descripcion, String format, String byteArrayData) {
 		this.descripcion = descripcion;
 		this.format = format;
 		this.byteArrayData = byteArrayData;
-	}
-
-	public Integer getValor() {
-		return valor;
 	}
 
 	public String getDescripcion() {

@@ -2,7 +2,7 @@ package com.business.unknow.enums;
 
 public enum TipoRecursoEnum {
 
-	EMPRESA, FACTURA, PAGO;
+	EMPRESAS, FACTURAS, PAGOS;
 
 	private TipoRecursoEnum() {
 	}

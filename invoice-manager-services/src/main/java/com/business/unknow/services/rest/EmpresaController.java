@@ -56,7 +56,8 @@ public class EmpresaController {
 
   @PutMapping("/empresas/{rfc}")
   public ResponseEntity<EmpresaDto> updateClient(
-      @PathVariable String rfc, @RequestBody @Valid EmpresaDto empresa) {
+      @PathVariable String rfc, @RequestBody @Valid EmpresaDto empresa)
+      throws InvoiceManagerException {
     return new ResponseEntity<>(service.updateEmpresaInfo(empresa, rfc), HttpStatus.OK);
   }
 }

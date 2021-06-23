@@ -98,6 +98,9 @@ public class Pago implements Serializable {
   @Column(name = "FECHA_ACTUALIZACION")
   private Date fechaActualizacion;
 
+  @Column(name = "FILE_FORMAT")
+  private String fileFormat;
+
   @OneToMany(mappedBy = "pago", cascade = CascadeType.PERSIST)
   private List<PagoFactura> facturas;
 
@@ -269,6 +272,14 @@ public class Pago implements Serializable {
 
   public void setFacturas(List<PagoFactura> facturas) {
     this.facturas = facturas;
+  }
+
+  public String getFileFormat() {
+    return fileFormat;
+  }
+
+  public void setFileFormat(String fileFormat) {
+    this.fileFormat = fileFormat;
   }
 
   @Override

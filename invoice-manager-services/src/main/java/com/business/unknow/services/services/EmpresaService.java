@@ -90,7 +90,8 @@ public class EmpresaService {
     return empresaEvaluatorService.createEmpresa(empresaDto);
   }
 
-  public EmpresaDto updateEmpresaInfo(EmpresaDto empresaDto, String rfc) {
+  public EmpresaDto updateEmpresaInfo(EmpresaDto empresaDto, String rfc)
+      throws InvoiceManagerException {
     Empresa empresa =
         repository
             .findByRfc(rfc)

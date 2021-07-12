@@ -135,8 +135,8 @@ public class SwSapinsExecutorService extends AbstractPackExecutor {
                 swProperties.getHost(), "", swProperties.getUser(), swProperties.getPassword())
             .cancel(
                 context.getFacturaDto().getUuid(),
-                context.getEmpresaDto().getPwSat(),
-                context.getEmpresaDto().getInformacionFiscal().getRfc(),
+                context.getEmpresaDto().getFiel(),
+                context.getEmpresaDto().getRfc(),
                 fileHelper.stringEncodeBase64(context.getEmpresaDto().getCertificado()),
                 fileHelper.stringEncodeBase64(context.getEmpresaDto().getLlavePrivada()));
       }

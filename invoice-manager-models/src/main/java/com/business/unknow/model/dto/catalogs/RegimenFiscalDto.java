@@ -7,7 +7,17 @@ import com.business.unknow.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
+@Jacksonized
+@Builder
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegimenFiscalDto implements Serializable{
@@ -19,41 +29,5 @@ public class RegimenFiscalDto implements Serializable{
 	private boolean pMoral;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.JSON_DATE_FORMAT)
 	private Date inicioVigencia;
-	public Integer getClave() {
-		return clave;
-	}
-	public void setClave(Integer clave) {
-		this.clave = clave;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public boolean ispFisica() {
-		return pFisica;
-	}
-	public void setpFisica(boolean pFisica) {
-		this.pFisica = pFisica;
-	}
-	public boolean ispMoral() {
-		return pMoral;
-	}
-	public void setpMoral(boolean pMoral) {
-		this.pMoral = pMoral;
-	}
-	public Date getInicioVigencia() {
-		return inicioVigencia;
-	}
-	public void setInicioVigencia(Date inicioVigencia) {
-		this.inicioVigencia = inicioVigencia;
-	}
-	@Override
-	public String toString() {
-		return "RegimenFiscalDto [clave=" + clave + ", descripcion=" + descripcion + ", pFisica=" + pFisica
-				+ ", pMoral=" + pMoral + ", inicioVigencia=" + inicioVigencia + "]";
-	}
-	
-	
+
 }

@@ -8,7 +8,17 @@ import com.business.unknow.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
+@Jacksonized
+@Builder
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientDto implements Serializable {
@@ -28,78 +38,5 @@ public class ClientDto implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.JSON_DATE_FORMAT)
 	private Date fechaActualizacion;
 	private ContribuyenteDto informacionFiscal;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public Boolean getActivo() {
-		return activo;
-	}
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
-	}
-	public BigDecimal getPorcentajePromotor() {
-		return porcentajePromotor;
-	}
-	public void setPorcentajePromotor(BigDecimal porcentajePromotor) {
-		this.porcentajePromotor = porcentajePromotor;
-	}
-	public BigDecimal getPorcentajeCliente() {
-		return porcentajeCliente;
-	}
-	public void setPorcentajeCliente(BigDecimal porcentajeCliente) {
-		this.porcentajeCliente = porcentajeCliente;
-	}
-	public BigDecimal getPorcentajeDespacho() {
-		return porcentajeDespacho;
-	}
-	public void setPorcentajeDespacho(BigDecimal porcentajeDespacho) {
-		this.porcentajeDespacho = porcentajeDespacho;
-	}
-	public BigDecimal getPorcentajeContacto() {
-		return porcentajeContacto;
-	}
-	public void setPorcentajeContacto(BigDecimal porcentajeContacto) {
-		this.porcentajeContacto = porcentajeContacto;
-	}
-	public String getCorreoPromotor() {
-		return correoPromotor;
-	}
-	public void setCorreoPromotor(String correoPromotor) {
-		this.correoPromotor = correoPromotor;
-	}
-	public String getCorreoContacto() {
-		return correoContacto;
-	}
-	public void setCorreoContacto(String correoContacto) {
-		this.correoContacto = correoContacto;
-	}
-	public Date getFechaCreacion() {
-		return fechaCreacion;
-	}
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
-	}
-	public Date getFechaActualizacion() {
-		return fechaActualizacion;
-	}
-	public void setFechaActualizacion(Date fechaActualizacion) {
-		this.fechaActualizacion = fechaActualizacion;
-	}
-	public ContribuyenteDto getInformacionFiscal() {
-		return informacionFiscal;
-	}
-	public void setInformacionFiscal(ContribuyenteDto informacionFiscal) {
-		this.informacionFiscal = informacionFiscal;
-	}
-	@Override
-	public String toString() {
-		return "ClientDto [id=" + id + ", activo=" + activo + ", porcentajePromotor=" + porcentajePromotor
-				+ ", porcentajeCliente=" + porcentajeCliente + ", porcentajeDespacho=" + porcentajeDespacho
-				+ ", porcentajeContacto=" + porcentajeContacto + ", correoPromotor=" + correoPromotor
-				+ ", correoContacto=" + correoContacto + ", fechaCreacion=" + fechaCreacion + ", fechaActualizacion="
-				+ fechaActualizacion + ", informacionFiscal=" + informacionFiscal + "]";
-	}
+
 }

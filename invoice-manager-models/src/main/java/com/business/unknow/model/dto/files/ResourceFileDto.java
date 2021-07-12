@@ -10,11 +10,27 @@ import com.business.unknow.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
 /**
  * @author ralfdemoledor
  *
+ * ResourceFileDto is a class created to saves metadata information related to S3 bucket files,
+ * where tipoArchivo  stores the file type(ex: CERT,KEY,LOGO,IMAGEN), tipoRecurso describe the
+ * origin of the resource (ex: EMPRESA,PAGO, FACTURA, DOC, etc), referencia links the resource
+ * with an unique identifier of other tables(ex: 3_AME1RASE20200420093307PUE, AME140512D80)
+ *
+ *
  */
+@Jacksonized
+@Builder
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResourceFileDto implements Serializable {
@@ -24,72 +40,10 @@ public class ResourceFileDto implements Serializable {
 	private String tipoArchivo;
 	private String referencia;
 	private String tipoRecurso;
+	private String filename;
+	@Deprecated// dont use data, this field will be removed once S3 refactor will be completed
 	private String data;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.JSON_DATE_FORMAT)
 	private Date fechaCreacion;
-
-	public ResourceFileDto() {
-	}
-
-	public ResourceFileDto(String tipoArchivo, String referencia, String tipoRecurso, String data) {
-		this.tipoArchivo = tipoArchivo;
-		this.referencia = referencia;
-		this.tipoRecurso = tipoRecurso;
-		this.data = data;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getTipoArchivo() {
-		return tipoArchivo;
-	}
-
-	public void setTipoArchivo(String tipoArchivo) {
-		this.tipoArchivo = tipoArchivo;
-	}
-
-	public String getReferencia() {
-		return referencia;
-	}
-
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-
-	public String getTipoRecurso() {
-		return tipoRecurso;
-	}
-
-	public void setTipoRecurso(String tipoRecurso) {
-		this.tipoRecurso = tipoRecurso;
-	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
-	}
-
-	public Date getFechaCreacion() {
-		return fechaCreacion;
-	}
-
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
-	}
-
-	@Override
-	public String toString() {
-		return "ResourceFileDto [id=" + id + ", tipoArchivo=" + tipoArchivo + ", referencia=" + referencia
-				+ ", tipoRecurso=" + tipoRecurso + ", fechaCreacion=" + fechaCreacion + "]";
-	}
 
 }

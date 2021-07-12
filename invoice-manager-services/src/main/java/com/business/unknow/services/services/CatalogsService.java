@@ -76,7 +76,11 @@ public class CatalogsService {
                     new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No se encontraron resultados del codigo postal"));
     CodigoPostalUiDto dto =
-        new CodigoPostalUiDto(codigo, codigPostal.getMunicipio(), codigPostal.getEstado());
+        CodigoPostalUiDto.builder()
+            .codigo_postal(codigo)
+            .municipio(codigPostal.getMunicipio())
+            .estado(codigPostal.getEstado())
+            .build();
     for (CodigoPostal cod : codigos) {
       dto.getColonias().add(cod.getColonia());
     }

@@ -90,7 +90,7 @@ public class CuentaBancariaService {
         result.getTotalElements());
   }
 
-  public List<CuentaBancariaDto> getCuentasPorEmpresa(String empresa) {
+  public List<CuentaBancariaDto> getCuentasPorRfc(String empresa) {
     return mapper.getCuentaBancariaDtosFromEntities(repository.findByEmpresa(empresa));
   }
 

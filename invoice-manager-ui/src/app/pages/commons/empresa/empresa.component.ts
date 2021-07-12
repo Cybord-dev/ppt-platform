@@ -12,6 +12,7 @@ import { FilesData } from '../../../@core/data/files-data';
 import { CuentasData } from '../../../@core/data/cuentas-data';
 import { Cuenta } from '../../../models/cuenta';
 import { GenericPage } from '../../../models/generic-page';
+import { NbComponentStatus, NbGlobalPhysicalPosition, NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-empresa',
@@ -32,6 +33,7 @@ export class EmpresaComponent implements OnInit {
   public cuentas: Cuenta[];
 
   constructor(private router: Router,
+    private toastrService: NbToastrService,
     private catalogsService: CatalogsData,
     private empresaService: CompaniesData,
     private resourcesService: FilesData,
@@ -75,8 +77,10 @@ export class EmpresaComponent implements OnInit {
             });
               },
               (error: HttpErrorResponse) => console.error(error));
-          },(error: HttpErrorResponse) => this.errorMessages.push(error.error.message
-              || `${error.statusText} : ${error.message}`));
+          },(error: HttpErrorResponse) => {
+            let msg = error.error.message || `${error.statusText} : ${error.message}`;
+            this.showToast('danger','Error', msg, true);
+          });
         this.resourcesService.getResourceFile(rfc,'EMPRESA','LOGO')
           .subscribe(logo => this.logo = 'data:image/jpeg;base64,' + logo.data);
       }
@@ -118,12 +122,14 @@ export class EmpresaComponent implements OnInit {
     this.companyInfo.tipo = linea;
   }
 
+
+  /*
   logoUploadListener(event: any): void {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       if (file.size > 200000) {
-        alert('El archivo demasiado grande, intenta con un archivo mas pequeño.');
+        this.showToast('warning','Error', 'La imagen del logo es demasiado grande', true);
       } else {
         reader.readAsDataURL(file);
         reader.onload = () => {
@@ -150,7 +156,7 @@ export class EmpresaComponent implements OnInit {
         this.companyInfo.llavePrivada = data.substring(data.indexOf('base64') + 7, data.length);
       };
       reader.onerror = (error) => {
-        this.errorMessages.push('Error parsing key file');
+        this.showToast('danger','Error', 'Error cargando la llave', true);
         console.error(error);
       };
     }
@@ -166,45 +172,75 @@ export class EmpresaComponent implements OnInit {
         const data: string = reader.result.toString();
         this.companyInfo.certificado = data.substring(data.indexOf('base64') + 7, data.length);
       };
-      reader.onerror = (error) => { this.errorMessages.push('Error parsing certificate file') };
+      reader.onerror = (error) => { this.showToast('danger','Error', 'Error cargando el certificado', true); };
+    }
+  }*/
+
+  public async insertNewCompany() {
+    try {
+      let errorMessages = this.companiesValidatorService.validarEmpresa(this.companyInfo);
+      if (errorMessages.length === 0) {
+        await this.empresaService.insertNewCompany(this.companyInfo).toPromise();
+        this.showToast('info','Exito!','La empresa ha sido creada correctamente');
+      } else{
+        let fullMessage = '';
+        for (const msg of errorMessages) {
+          fullMessage = `<p>${msg}</p>`;
+        }
+        this.showToast('warning','Algunos errores', fullMessage, true);
+      } 
+    } catch (error) {
+      let msg = error.error.message || `${error.statusText} : ${error.message}`;
+      this.showToast('danger','Error', msg, true);
     }
   }
 
-  public insertNewCompany(): void {
-    this.errorMessages = [];
-    this.formInfo.success = '';
-    this.errorMessages = this.companiesValidatorService.validarEmpresa(this.companyInfo);
-    if (this.errorMessages.length === 0) {
-      this.empresaService.insertNewCompany(this.companyInfo)
-        .subscribe((empresa: Empresa) => { this.router.navigate([`./pages/operaciones/empresas`]); },
-          (error: HttpErrorResponse) => {
-            this.errorMessages.push(error.error.message
-              || `${error.statusText} : ${error.message}`);
-          });
+  public async updateCompany() {
+    try{
+      await this.empresaService.updateCompany(this.companyInfo.informacionFiscal.rfc, this.companyInfo).toPromise();
+      this.showToast('info','Exito!','La empresa ha sido actualizada correctamente');
+    }catch(error){
+      let msg = error.error.message || `${error.statusText} : ${error.message}`;
+      this.showToast('danger','Error', msg, true);
     }
   }
 
-  public updateCompany(): void {
-    this.errorMessages = [];
-    this.formInfo.success = '';
-    this.empresaService.updateCompany(this.companyInfo.informacionFiscal.rfc, this.companyInfo)
-      .subscribe((data: Empresa) => { this.router.navigate([`./pages/contablidad/empresas`]); },
-        (error: HttpErrorResponse) => { this.errorMessages.push(error.error.message || `${error.statusText} : ${error.message}`); }
-      );
-  }
-
-  public inactivateCompany() {
+  public async inactivateCompany() {
     this.companyInfo.activo = false;
-    this.empresaService.updateCompany(this.companyInfo.informacionFiscal.rfc, this.companyInfo)
-      .subscribe((data: Empresa) => this.formInfo.success = 'la empresa ha sido desactivada satisfactoriamente',
-        (error: HttpErrorResponse) => { this.errorMessages.push(error.error.message || `${error.statusText} : ${error.message}`); });
+    try{
+      await this.empresaService.updateCompany(this.companyInfo.informacionFiscal.rfc, this.companyInfo).toPromise();
+      this.showToast('info','Exito!','La empresa ha sido desactivada satisfactoriamente');
+    }catch(error){
+      
+    }
   }
 
-  public activateCompany() {
+  public async activateCompany() {
     this.companyInfo.activo = true;
-    this.empresaService.updateCompany(this.companyInfo.informacionFiscal.rfc, this.companyInfo)
-      .subscribe((data: Empresa) => this.formInfo.success = 'la empresa ha sido activada satisfactoriamente',
-        (error: HttpErrorResponse) => { this.errorMessages.push(error.error.message || `${error.statusText} : ${error.message}`); });
+    try{
+      await this.empresaService.updateCompany(this.companyInfo.informacionFiscal.rfc, this.companyInfo).toPromise();
+      this.showToast('info','Exito!','La empresa ha sido activada satisfactoriamente');
+    }catch(error){
+      let msg = error.error.message || `${error.statusText} : ${error.message}`;
+      this.showToast('danger','Error', msg,true);
+    }
+  }
+
+  private showToast(type: NbComponentStatus, title: string, body: string, clickdestroy ?:boolean) {
+    const config = {
+      status: type,
+      destroyByClick: clickdestroy || false,
+      duration: 2500,
+      hasIcon: true,
+      position: NbGlobalPhysicalPosition.TOP_RIGHT,
+      preventDuplicates: true,
+    };
+    const titleContent = title ? `${title}` : 'xxxx';
+
+    this.toastrService.show(
+      body,
+      titleContent,
+      config);
   }
 
 }

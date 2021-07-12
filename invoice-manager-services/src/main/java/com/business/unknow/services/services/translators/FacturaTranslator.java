@@ -184,7 +184,7 @@ public class FacturaTranslator {
     String sello =
         signHelper.getSign(
             cadenaOriginal,
-            context.getEmpresaDto().getPwSat(),
+            context.getEmpresaDto().getFiel(),
             context.getEmpresaDto().getLlavePrivada());
     context.setXml(cdfiHelper.putsSign(xml, sello));
     if (context.getFacturaDto().getCfdi().getComplemento() == null) {
@@ -204,7 +204,7 @@ public class FacturaTranslator {
     String sello =
         signHelper.getSign(
             cadenaOriginal,
-            context.getEmpresaDto().getPwSat(),
+            context.getEmpresaDto().getFiel(),
             context.getEmpresaDto().getLlavePrivada());
     context.setXml(cdfiHelper.putsSign(xml, sello).replace("standalone=\"no\"", ""));
     context.getFacturaDto().getCfdi().setComplemento(new ComplementoDto());

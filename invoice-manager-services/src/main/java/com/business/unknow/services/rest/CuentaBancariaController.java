@@ -31,10 +31,10 @@ public class CuentaBancariaController {
     return new ResponseEntity<>(service.getCuentasBancariasByfilters(parameters), HttpStatus.OK);
   }
 
-  @GetMapping("/empresas/{empresa}/cuentas")
-  public ResponseEntity<List<CuentaBancariaDto>> getCuentasBancariasByfilters(
-      @PathVariable(name = "empresa") String empresa) {
-    return new ResponseEntity<>(service.getCuentasPorEmpresa(empresa), HttpStatus.OK);
+  @GetMapping("/empresas/{rfc}/cuentas")
+  public ResponseEntity<List<CuentaBancariaDto>> getCuentasBancariasByRFC(
+      @PathVariable(name = "rfc") String rfc) {
+    return new ResponseEntity<>(service.getCuentasPorRfc(rfc), HttpStatus.OK);
   }
 
   @GetMapping("/cuenta/{empresa}/{cuenta}")

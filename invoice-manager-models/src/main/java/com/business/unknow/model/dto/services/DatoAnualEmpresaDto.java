@@ -1,6 +1,4 @@
-package com.business.unknow.model.dto.catalogs;
-
-import java.io.Serializable;
+package com.business.unknow.model.dto.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,6 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 
+import java.io.Serializable;
+
 @Jacksonized
 @Builder
 @Getter
@@ -17,10 +17,12 @@ import lombok.extern.jackson.Jacksonized;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CatalogDto implements Serializable{
+public class DatoAnualEmpresaDto implements Serializable {
 
-	private static final long serialVersionUID = -3501323018022886575L;
-	private Integer id;
-	private String nombre;
+    private static final long serialVersionUID = -6418483593324786042L;
 
+    private Integer id;
+    private String tipoDato;
+    private Integer anio;
+    private String dato;
 }

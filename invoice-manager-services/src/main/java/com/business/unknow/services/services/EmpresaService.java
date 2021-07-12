@@ -81,15 +81,16 @@ public class EmpresaService {
     empresaValidator.validatePostEmpresa(empresaDto);
     empresaDto.setActivo(false);
 
-    if (repository.findByRfc(empresaDto.getInformacionFiscal().getRfc()).isPresent()) {
+    if (repository.findByRfc(empresaDto.getRfc()).isPresent()) {
       throw new InvoiceManagerException(
           "Ya existe la empresa",
-          String.format("La empresa %s ya existe", empresaDto.getInformacionFiscal().getRfc()),
+          String.format("La empresa %s ya existe", empresaDto.getRfc()),
           HttpStatus.CONFLICT.value());
     }
     return empresaEvaluatorService.createEmpresa(empresaDto);
   }
 
+  // TODO review this method, and update root values only
   public EmpresaDto updateEmpresaInfo(EmpresaDto empresaDto, String rfc) {
     Empresa empresa =
         repository
@@ -100,26 +101,18 @@ public class EmpresaService {
                         HttpStatus.NOT_FOUND,
                         String.format("El empresa con el rfc %s no existe", rfc)));
     empresa.setTipo(empresaDto.getTipo());
-    empresa.setReferencia(empresaDto.getReferencia());
     empresa.setWeb(empresaDto.getWeb());
-    empresa.setSucursal(empresaDto.getSucursal());
-    empresa.setPwSat(empresaDto.getPwSat());
+    empresa.setPwSat(empresaDto.getFiel());
     empresa.setCorreo(empresaDto.getCorreo());
 
     empresa.setGiro(empresaDto.getGiro());
-    empresa.setContactoAdmin(empresaDto.getContactoAdmin());
-    empresa.setEncabezado(empresaDto.getEncabezado());
-    empresa.setPiePagina(empresaDto.getPiePagina());
+
     empresa.setRegimenFiscal(empresaDto.getRegimenFiscal());
 
     empresa.setPwCorreo(empresaDto.getPwCorreo());
     empresa.setActivo(empresaDto.getActivo());
     empresa.setNoCertificado(empresaDto.getNoCertificado());
-    empresa.setInformacionFiscal(
-        contribuyenteMapper.getEntityFromContribuyenteDto(empresaDto.getInformacionFiscal()));
-    empresaEvaluatorService.updateLogo(rfc, empresaDto.getLogotipo());
-    empresaEvaluatorService.updateCertificado(rfc, empresaDto.getCertificado());
-    empresaEvaluatorService.updateKey(rfc, empresaDto.getLlavePrivada());
+
     return mapper.getEmpresaDtoFromEntity(repository.save(empresa));
   }
 }

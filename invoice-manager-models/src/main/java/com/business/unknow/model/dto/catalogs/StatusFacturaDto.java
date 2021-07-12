@@ -5,7 +5,17 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
+@Jacksonized
+@Builder
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StatusFacturaDto implements Serializable {
@@ -19,59 +29,5 @@ public class StatusFacturaDto implements Serializable {
 	private Date fechaCreacion;
 	private Date fechaActualizacion;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getStatusEvento() {
-		return statusEvento;
-	}
-
-	public void setStatusEvento(String statusEvento) {
-		this.statusEvento = statusEvento;
-	}
-
-	public String getStatusPago() {
-		return statusPago;
-	}
-
-	public void setStatusPago(String statusPago) {
-		this.statusPago = statusPago;
-	}
-
-	public Date getFechaCreacion() {
-		return fechaCreacion;
-	}
-
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
-	}
-
-	public Date getFechaActualizacion() {
-		return fechaActualizacion;
-	}
-
-	public void setFechaActualizacion(Date fechaActualizacion) {
-		this.fechaActualizacion = fechaActualizacion;
-	}
-
-	public String getStatusDevolucion() {
-		return statusDevolucion;
-	}
-
-	public void setStatusDevolucion(String statusDevolucion) {
-		this.statusDevolucion = statusDevolucion;
-	}
-
-	@Override
-	public String toString() {
-		return "StatusFacturaDto [id=" + id + ", statusEvento=" + statusEvento + ", statusPago=" + statusPago
-				+ ", statusDevolucion=" + statusDevolucion + ", fechaCreacion=" + fechaCreacion
-				+ ", fechaActualizacion=" + fechaActualizacion + "]";
-	}
 
 }

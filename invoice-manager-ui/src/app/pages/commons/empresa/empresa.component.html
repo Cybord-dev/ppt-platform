@@ -1,260 +1,277 @@
 <div class="row">
   <div class="col-md-12">
     <nb-card>
-      <nb-card-header class="puff_center">Registro Empresa
+      <nb-card-header class="puff_center">Datos empresa
         <button type="button" class="btn btn-outline-danger float-right" *ngIf="companyInfo.activo"
           (click)="inactivateCompany()">Desactivar</button>
         <button type="button" class="btn btn-outline-success float-right" *ngIf="!companyInfo.activo"
-          (click)="activateCompany()">Activar</button></nb-card-header>
+          (click)="activateCompany()">Activar</button>
+      </nb-card-header>
       <nb-card-body>
-        <p class="font-weight-bold puff_center">Informacion Fiscal</p>
-        <div class="row slide_1">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="inputRFC" class="label">RFC</label>
-              <input type="text" [(ngModel)]="companyInfo.informacionFiscal.rfc" class="form-control" fullWidth
-                id="inputRFC" placeholder="RFC Empresa" [disabled]="companyInfo.id!==undefined || companyInfo.activo">
-            </div>
-          </div>
-          <div class="col-md-5">
-            <div class="form-group">
-              <label for="inputSocialReason" class="label">Razón Social</label>
-              <input type="text" [(ngModel)]="companyInfo.informacionFiscal.razonSocial" class="form-control" fullWidth
-                [disabled]="companyInfo.activo" id="inputSocialReason" placeholder="Razón Social">
-            </div>
-          </div>
-
-          <div class="col-sm-3">
-            <label for="inputPayType" class="label">Regimen Fiscal</label>
-            <select selected="1" id="inputPayType" style="display:block;" class="form-control"
-              [(ngModel)]="companyInfo.regimenFiscal" [disabled]="companyInfo.activo"
-              (change)="onRegimenFiscalSelected($event.target.value)">
-              <option value="*">Seleccionar</option>
-              <option value="601">General de Ley Personas Morales</option>
-              <option value="603">Personas Morales con Fines no Lucrativos</option>
-              <option value="609">Consolidación</option>
-              <option value="612">Personas Físicas con Actividades Empresariales y Profesionales</option>
-              <option value="620">Sociedades Cooperativas de Producción que optan por diferir sus ingresos</option>
-              <option value="621">Incorporación Fiscal</option>
-            </select>
-          </div>
-
-        </div>
-        <div class="row slide_2">
-          <div class="col-sm-3">
-            <label for="inputPais" class="label">País</label>
-            <select id="inputPais" selected="0" fullWidth class="form-control" style="display:block;"
-              [disabled]="companyInfo.activo">
-              <option value="0">México</option>
-            </select>
-          </div>
-          <div class="col-sm-3">
-            <div class="form-group">
-              <label for="inputZipCode" class="label">Código Postal</label>
-              <input type="text" [(ngModel)]="companyInfo.informacionFiscal.cp" (ngModelChange)="zipCodeInfo($event)"
-                [disabled]="companyInfo.activo" class="form-control" fullWidth id="inputZipCode" placeholder="00300">
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <label for="inputColonia" class="label">Seleccionar colonia</label>
-            <select id="inputColonia" fullWidth class="form-control" *ngIf="!companyInfo.activo"
-              [(ngModel)]="formInfo.coloniaId" (change)="onLocation($event.target.value)" style="display:block;">
-              <option value="*">Seleccionar</option>
-              <option *ngFor="let colonia of colonias; let i = index" [value]="i">{{colonia}}</option>
-            </select>
-            <input type="text" [(ngModel)]="companyInfo.informacionFiscal.localidad" class="form-control" fullWidth
-              [disabled]="companyInfo.activo" *ngIf="companyInfo.activo" id="inputLocalidad" placeholder="Colonia">
-          </div>
-
-        </div>
-        <div class="row slide_3">
-          <div class="col-sm-4">
-            <label for="inputState" class="label">Estado</label>
-            <input type="text" [(ngModel)]="companyInfo.informacionFiscal.estado" class="form-control" fullWidth
-              id="inputState" [disabled]="companyInfo.activo" placeholder="Estado">
-          </div>
-          <div class="col-sm-4">
-            <div class="form-group">
-              <label for="inputCity" class="label">Municipio/Delegación</label>
-              <input type="text" [(ngModel)]="companyInfo.informacionFiscal.municipio" class="form-control" fullWidth
-                id="inputCity" [disabled]="companyInfo.activo" placeholder="Municipio/Delegación">
-            </div>
-          </div>
-          <!--div-- class="col-sm-4">
-            <div class="form-group">
-              <label for="inputLocalidad" class="label">Colonia</label>
-              <input type="text" [(ngModel)]="companyInfo.informacionFiscal.localidad" class="form-control" fullWidth [disabled]="companyInfo.activo"
-                id="inputLocalidad" placeholder="Colonia">
-            </div>
-          </!--div-->
-        </div>
-        <div class="row slide_4">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="inputCalle" class="label">Calle</label>
-              <input type="text" [(ngModel)]="companyInfo.informacionFiscal.calle" class="form-control" fullWidth
-                id="inputCalle" [disabled]="companyInfo.activo" placeholder="Calle">
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="inputExterior" class="label">No exterior</label>
-              <input type="text" [(ngModel)]="companyInfo.informacionFiscal.noExterior" class="form-control" fullWidth
-                [disabled]="companyInfo.activo" id="inputExterior" placeholder="No exterior">
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="inputInterior" class="label">No interior</label>
-              <input type="text" [(ngModel)]="companyInfo.informacionFiscal.noInterior" class="form-control" fullWidth
-                [disabled]="companyInfo.activo" id="inputInterior" placeholder="No interior">
-            </div>
-          </div>
-        </div>
-        <p class="font-weight-bold puff_center">Datos addicionales</p>
-        <div class="row slide_4">
-          <div class="col-sm-6">
-            <label for="inputGiro" class="label">Giro Empresa</label>
-            <select id="inputGiro" fullWidth class="form-control" (change)="onGiroSelection($event.target.value)"
-              [disabled]="companyInfo.activo" style="display:block;" [(ngModel)]="companyInfo.giro">
-              <option value="*">Seleccionar</option>
-              <option *ngFor="let giro of girosCat" [(value)]="giro.id">{{giro.nombre}}</option>
-            </select>
-          </div>
-          <div class="col-sm-3">
-            <label for="inputCompanyType" class="label">Linea Empresa</label>
-            <select selected="*" id="inputCompanyType" style="display:block;width: 250px;" class="form-control"
-              [disabled]="companyInfo.activo" [(ngModel)]="companyInfo.tipo"
-              (change)="onLineaSelected($event.target.value)">
-              <option value="*">Seleccionar</option>
-              <option value="A">Tipo A</option>
-              <option value="B">Tipo B</option>
-              <option value="C">Tipo C</option>
-            </select>
-          </div>
-        </div>
-        <div class="row slide_4">
-          <div class="col-md-6">
-            <label for="inputContact" class="label">Nombre contacto Legal</label>
-            <input type="text" [(ngModel)]="companyInfo.contactoAdmin" class="form-control" fullWidth
-              [disabled]="companyInfo.activo" id="inputContact" placeholder="Contacto legal">
-          </div>
-          <div class="col-md-6">
-
-            <label for="inputWeb" class="label">Sitio web</label>
-            <input type="text" [(ngModel)]="companyInfo.web" class="form-control" fullWidth
-              [disabled]="companyInfo.activo" id="inputWeb" placeholder="www.mi-empresa.com">
-
-          </div>
-        </div>
-        <p class="font-weight-bold puff_center">Datos facturacion</p>
-        <div>
-          <div class="row slide_4">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="inputEncabezado" class="label">Encabezado</label>
-                <textarea type="text" [(ngModel)]="companyInfo.encabezado" class="form-control" fullWidth
-                  id="inputEncabezado" [disabled]="companyInfo.activo"
-                  placeholder="Breve leyenda de encabezado para facturas empresa."></textarea>
+        <nb-tabset fullWidth>
+          <nb-tab tabTitle="Datos generales">
+            <p class="font-weight-bold puff_center">Informacion Fiscal</p>
+            <div class="row slide_1">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="inputRFC" class="label">RFC</label>
+                  <input type="text" [(ngModel)]="companyInfo.informacionFiscal.rfc" class="form-control" fullWidth
+                    id="inputRFC" placeholder="RFC Empresa"
+                    [disabled]="companyInfo.id!==undefined || companyInfo.activo">
+                </div>
               </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="inputPie" class="label">Pie de pagina</label>
-                <textarea type="text" [(ngModel)]="companyInfo.piePagina" class="form-control" fullWidth id="inputPie"
-                  [disabled]="companyInfo.activo"
-                  placeholder="Breve leyenda de pie de pagina para facturas empresa."></textarea>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="inputSocialReason" class="label">Razón Social</label>
+                  <input type="text" [(ngModel)]="companyInfo.informacionFiscal.razonSocial" class="form-control"
+                    fullWidth [disabled]="companyInfo.activo" id="inputSocialReason" placeholder="Razón Social">
+                </div>
               </div>
-            </div>
-          </div>
-          <label for="logoFile" class="label">Logotipo Empresa</label>
-          <div class="row slide_4">
-            <div class="form-group col-md-4" *ngIf="companyInfo.logotipo==undefined && !companyInfo.activo">
 
-              <div class="input-group">
-                <div class="custom-file" id="logoFile">
-                  <input type="file" class="custom-file-input" id="inputLogoFile" accept="image/*"
-                    [disabled]="companyInfo.activo" (change)="logoUploadListener($event)" style="display:block;"
-                    aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputLogoFile">{{formInfo.logoFileName}}</label>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="inputShortName" class="label">Nombre Corto</label>
+                  <input type="text" [(ngModel)]="companyInfo.nombre" class="form-control"
+                    fullWidth [disabled]="companyInfo.activo" id="inputShortName" placeholder="Nombre corto">
                 </div>
               </div>
 
             </div>
-            <div class="col-md-4">
-              <div *ngIf="logo.length>0">
-                <img [src]="sanitize(logo)" style="height: 80px;">
+            <div class="row slide_2">
+              <div class="col-sm-3">
+                <label for="inputPais" class="label">País</label>
+                <select id="inputPais" selected="0" fullWidth class="form-control" style="display:block;"
+                  [disabled]="companyInfo.activo">
+                  <option value="0">México</option>
+                </select>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="inputZipCode" class="label">Código Postal</label>
+                  <input type="text" [(ngModel)]="companyInfo.informacionFiscal.cp"
+                    (ngModelChange)="zipCodeInfo($event)" [disabled]="companyInfo.activo" class="form-control" fullWidth
+                    id="inputZipCode" placeholder="00300">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="inputColonia" class="label">Seleccionar colonia</label>
+                <select id="inputColonia" fullWidth class="form-control" *ngIf="!companyInfo.activo"
+                  [(ngModel)]="formInfo.coloniaId" (change)="onLocation($event.target.value)" style="display:block;">
+                  <option value="*">Seleccionar</option>
+                  <option *ngFor="let colonia of colonias; let i = index" [value]="i">{{colonia}}</option>
+                </select>
+                <input type="text" [(ngModel)]="companyInfo.informacionFiscal.localidad" class="form-control" fullWidth
+                  [disabled]="companyInfo.activo" *ngIf="companyInfo.activo" id="inputLocalidad" placeholder="Colonia">
+              </div>
+
+            </div>
+            <div class="row slide_3">
+              <div class="col-sm-4">
+                <label for="inputState" class="label">Estado</label>
+                <input type="text" [(ngModel)]="companyInfo.informacionFiscal.estado" class="form-control" fullWidth
+                  id="inputState" [disabled]="companyInfo.activo" placeholder="Estado">
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="inputCity" class="label">Municipio/Delegación</label>
+                  <input type="text" [(ngModel)]="companyInfo.informacionFiscal.municipio" class="form-control"
+                    fullWidth id="inputCity" [disabled]="companyInfo.activo" placeholder="Municipio/Delegación">
+                </div>
               </div>
             </div>
-          </div>
-
-
-
-        </div>
-        <p class="font-weight-bold puff_center">Claves y accessos</p>
-        <div class="row slide_4">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="inputEmail" class="label">Correo Empresa</label>
-              <input type="email" [(ngModel)]="companyInfo.correo" class="form-control" fullWidth id="inputEmail"
-                [disabled]="companyInfo.activo" placeholder="Email">
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label for="inputPassword" class="label">Contraseña correo</label>
-              <input type="text" [(ngModel)]="companyInfo.pwCorreo" class="form-control" fullWidth id="inputPassword"
-                [disabled]="companyInfo.activo" placeholder="Password">
-            </div>
-          </div>
-        </div>
-        <div class="row slide_4">
-          <div class="form-group col-md-3">
-            <label for="certFile" class="label">Certificado SAT</label>
-            <div class="input-group">
-              <div class="custom-file" id="certFile">
-                <input type="file" class="custom-file-input" id="inputCertificateFile" accept=".cer"
-                  [disabled]="companyInfo.activo" (change)="certificateUploadListener($event)" style="display:block;"
-                  aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputCertificateFile">{{formInfo.certificateFileName}}</label>
+            <div class="row slide_4">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="inputCalle" class="label">Calle</label>
+                  <input type="text" [(ngModel)]="companyInfo.informacionFiscal.calle" class="form-control" fullWidth
+                    id="inputCalle" [disabled]="companyInfo.activo" placeholder="Calle">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="inputExterior" class="label">No exterior</label>
+                  <input type="text" [(ngModel)]="companyInfo.informacionFiscal.noExterior" class="form-control"
+                    fullWidth [disabled]="companyInfo.activo" id="inputExterior" placeholder="No exterior">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="inputInterior" class="label">No interior</label>
+                  <input type="text" [(ngModel)]="companyInfo.informacionFiscal.noInterior" class="form-control"
+                    fullWidth [disabled]="companyInfo.activo" id="inputInterior" placeholder="No interior">
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="form-group col-md-3">
-            <label for="keyFile" class="label">Llave SAT</label>
-            <div class="input-group">
-              <div class="custom-file" id="keyFile">
-                <input type="file" class="custom-file-input" id="inputKeyFile" accept=".key"
-                  [disabled]="companyInfo.activo" (change)="keyUploadListener($event)" style="display:block;"
-                  aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputKeyFile">{{formInfo.keyFileName}}</label>
+            <p class="font-weight-bold puff_center">Datos addicionales</p>
+            <div class="row slide_4">
+              <div class="col-sm-6">
+                <label for="inputGiro" class="label">Giro Empresa</label>
+                <select id="inputGiro" fullWidth class="form-control" (change)="onGiroSelection($event.target.value)"
+                  [disabled]="companyInfo.activo" style="display:block;" [(ngModel)]="companyInfo.giro">
+                  <option value="*">Seleccionar</option>
+                  <option *ngFor="let giro of girosCat" [(value)]="giro.id">{{giro.nombre}}</option>
+                </select>
+              </div>
+              <div class="col-sm-3">
+                <label for="inputCompanyType" class="label">Linea Empresa</label>
+                <select selected="*" id="inputCompanyType" style="display:block" fullWidth class="form-control"
+                  [disabled]="companyInfo.activo" [(ngModel)]="companyInfo.tipo"
+                  (change)="onLineaSelected($event.target.value)">
+                  <option value="*">Seleccionar</option>
+                  <option value="A">Tipo A</option>
+                  <option value="B">Tipo B</option>
+                  <option value="C">Tipo C</option>
+                </select>
+              </div>
+              <div class="col-sm-3">
+                <label for="inputPayType" class="label">Regimen Fiscal</label>
+                <select selected="1" id="inputPayType" style="display:block;" fullWidth class="form-control"
+                  [(ngModel)]="companyInfo.regimenFiscal" [disabled]="companyInfo.activo"
+                  (change)="onRegimenFiscalSelected($event.target.value)">
+                  <option value="*">Seleccionar</option>
+                  <option value="601">General de Ley Personas Morales</option>
+                  <option value="603">Personas Morales con Fines no Lucrativos</option>
+                  <option value="609">Consolidación</option>
+                  <option value="612">Personas Físicas con Actividades Empresariales y Profesionales</option>
+                  <option value="620">Sociedades Cooperativas de Producción que optan por diferir sus ingresos</option>
+                  <option value="621">Incorporación Fiscal</option>
+                </select>
               </div>
             </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="inputPasswordSAT" class="label">Contraseña SAT</label>
-              <input type="password" [(ngModel)]="companyInfo.pwSat" class="form-control" fullWidth
-                [disabled]="companyInfo.activo" id="inputPasswordSAT" placeholder="Contraseña SAT">
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="noCert" class="label">No de certificado</label>
-              <input type="text" [(ngModel)]="companyInfo.noCertificado" class="form-control" fullWidth
-                [disabled]="companyInfo.activo" id="noCert" placeholder="0000000000">
-            </div>
-          </div>
-        </div>
-
-
-        <div class="row">
-          <div class="col-md-12">
             
-            <div class="puff_center"><p class="font-weight-bold puff_center">Cuentas Bancarias Relacionadas a la Empresa</p></div>
-              
+          </nb-tab>
+          <nb-tab tabTitle="Datos digitales">
+            <p class="font-weight-bold puff_center">Claves y accessos</p>
+            <div class="row slide_4">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="inputEmail" class="label">Correo Empresa</label>
+                  <input type="email" [(ngModel)]="companyInfo.correo" class="form-control" fullWidth id="inputEmail"
+                    [disabled]="companyInfo.activo" placeholder="Email">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="inputPassword" class="label">Contraseña correo</label>
+                  <input type="text" [(ngModel)]="companyInfo.pwCorreo" class="form-control" fullWidth
+                    id="inputPassword" [disabled]="companyInfo.activo" placeholder="Password">
+                </div>
+              </div>
+            </div>
+            <div class="row slide_4">
+              <div class="form-group col-md-3">
+                <label for="certFile" class="label">Certificado SAT</label>
+                <div class="input-group">
+                  <div class="custom-file" id="certFile">
+                    <input type="file" class="custom-file-input" id="inputCertificateFile" accept=".cer"
+                      [disabled]="companyInfo.activo" (change)="certificateUploadListener($event)"
+                      style="display:block;" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputCertificateFile">{{formInfo.certificateFileName}}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="keyFile" class="label">Llave SAT</label>
+                <div class="input-group">
+                  <div class="custom-file" id="keyFile">
+                    <input type="file" class="custom-file-input" id="inputKeyFile" accept=".key"
+                      [disabled]="companyInfo.activo" (change)="keyUploadListener($event)" style="display:block;"
+                      aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputKeyFile">{{formInfo.keyFileName}}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="inputPasswordSAT" class="label">Contraseña SAT</label>
+                  <input type="password" [(ngModel)]="companyInfo.pwSat" class="form-control" fullWidth
+                    [disabled]="companyInfo.activo" id="inputPasswordSAT" placeholder="Contraseña SAT">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="noCert" class="label">No de certificado</label>
+                  <input type="text" [(ngModel)]="companyInfo.noCertificado" class="form-control" fullWidth
+                    [disabled]="companyInfo.activo" id="noCert" placeholder="0000000000">
+                </div>
+              </div>
+            </div>
+
+            <p class="font-weight-bold puff_center">Datos facturacion</p>
+
+            <div class="row slide_4">
+              <div class="col-md-6">
+
+                <label for="inputWeb" class="label">Sitio web</label>
+                <input type="text" [(ngModel)]="companyInfo.web" class="form-control" fullWidth
+                  [disabled]="companyInfo.activo" id="inputWeb" placeholder="www.mi-empresa.com">
+
+              </div>
+            </div>
+            <label for="logoFile" class="label">Logotipo Empresa</label>
+            <div class="row slide_4">
+              <div class="form-group col-md-4" *ngIf="companyInfo.logotipo==undefined && !companyInfo.activo">
+
+                <div class="input-group">
+                  <div class="custom-file" id="logoFile">
+                    <input type="file" class="custom-file-input" id="inputLogoFile" accept="image/*"
+                      [disabled]="companyInfo.activo" (change)="logoUploadListener($event)" style="display:block;"
+                      aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputLogoFile">{{formInfo.logoFileName}}</label>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-4">
+                <div *ngIf="logo.length>0">
+                  <img [src]="sanitize(logo)" style="height: 80px;">
+                </div>
+              </div>
+            </div>
+          </nb-tab>
+          <nb-tab tabTitle="Legales">
+            <p class="font-weight-bold puff_center">Datos legales</p>
+            <div class="row slide_1">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="inputRepresentante" class="label">Representante Legal</label>
+                  <input type="text" [(ngModel)]="companyInfo.representanteLegal" class="form-control" fullWidth
+                    id="inputRepresentante" placeholder="Nombre representante legal"
+                    [disabled]="companyInfo.id===undefined || companyInfo.activo">
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <label for="inputAlta" class="label">Año Alta</label>
+                <select selected="*" id="inputAlta" style="display:block" fullWidth class="form-control"
+                  [disabled]="companyInfo.activo" [(ngModel)]="companyInfo.anioAlta">
+                  <option value="*">Seleccionar</option>
+                  <option value="2018">2018</option>
+                  <option value="2019">2019</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="inputShortName" class="label">Nombre Corto</label>
+                  <input type="text" [(ngModel)]="companyInfo.nombre" class="form-control"
+                    fullWidth [disabled]="companyInfo.activo" id="inputShortName" placeholder="Nombre corto">
+                </div>
+              </div>
+
+            </div>
+          </nb-tab>
+          <nb-tab tabTitle="Cuentas bancarias">
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="puff_center">
+                  <p class="font-weight-bold puff_center">Cuentas Bancarias Relacionadas a la Empresa</p>
+                </div>
+
 
                 <div class="puff_center" *ngIf="cuentas === undefined" class="alert alert-primary" role="alert">
                   No se encontraron resultados
@@ -264,7 +281,7 @@
                   <table class="table table-sm">
                     <thead class="thead-dark">
                       <tr>
-                       
+
                         <th scope="col">BANCO</th>
                         <th scope="col">EMPRESA</th>
                         <th scope="col">NO_CUENTA</th>
@@ -276,7 +293,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let fila of cuentas">
-                       
+
                         <td scope="row">{{fila.banco}}</td>
                         <td scope="row">{{fila.empresa}}</td>
                         <td scope="row">{{fila.cuenta}}</td>
@@ -286,11 +303,33 @@
                       </tr>
                     </tbody>
                   </table>
-              </div>           
-          </div>
-        </div>
+                </div>
+              </div>
+            </div>
+          </nb-tab>
+          <nb-tab tabTitle="Contabilidad">
+            <span>Content #3</span>
+          </nb-tab>
 
-        <small *ngIf="companyInfo.activo !== true" id="emailHelp" class="form-text text-muted">La activacion del cliente
+          <nb-tab tabTitle="Observaciones">
+            <span>Content #3</span>
+          </nb-tab>
+        </nb-tabset>
+
+
+
+
+
+
+
+
+
+
+      </nb-card-body>
+
+      <nb-card-footer>
+        <small *ngIf="companyInfo.activo !== true" id="emailHelp" class="form-text text-muted">La activacion de la
+          empresa
           se realizara manualmente notificando al departamento de soporte.</small>
         <div class="form-inline">
           <button type="button" *ngIf="companyInfo.id == undefined" (click)="insertNewCompany()" nbButton
@@ -301,8 +340,8 @@
         <div class="alert alert-warning" *ngIf="errorMessages.length > 0" role="alert">
           <p *ngFor="let message of errorMessages">{{message}}</p>
         </div>
-        <p class="alert alert-success" *ngIf="formInfo.success.length > 0" role="alert">{{formInfo.success}}</p>
-      </nb-card-body>
+
+      </nb-card-footer>
     </nb-card>
   </div>
 </div>

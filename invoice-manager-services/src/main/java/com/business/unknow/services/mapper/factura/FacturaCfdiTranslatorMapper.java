@@ -42,7 +42,7 @@ public interface FacturaCfdiTranslatorMapper {
     @Mapping(source = "empresaDto.certificado", target = "certificado"),
     @Mapping(source = "empresaDto.noCertificado", target = "noCertificado"),
     @Mapping(source = "facturaDto.cfdi.sello", target = "sello"),
-    @Mapping(source = "empresaDto.informacionFiscal.cp", target = "lugarExpedicion")
+    @Mapping(source = "empresaDto.cp", target = "lugarExpedicion")
   })
   Cfdi cdfiRootInfo(FacturaDto facturaDto, EmpresaDto empresaDto);
 
@@ -102,6 +102,4 @@ public interface FacturaCfdiTranslatorMapper {
   Translado cfdiImpuesto(ImpuestoDto dto);
 
   Retencion cfdiRetencion(RetencionDto dto);
-
-  Translado cfdiImpuestoGlobal(ImpuestoDto dto);
 }

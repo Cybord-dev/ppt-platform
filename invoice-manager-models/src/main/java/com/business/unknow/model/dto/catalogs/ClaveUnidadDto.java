@@ -7,11 +7,21 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
 /**
  * @author ralfdemoledor
  *
  */
+@Jacksonized
+@Builder
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClaveUnidadDto implements Serializable {
@@ -22,34 +32,5 @@ public class ClaveUnidadDto implements Serializable {
 	private String tipo;
 	private String descripcion;
 	private String nombre;
-	public String getClave() {
-		return clave;
-	}
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	@Override
-	public String toString() {
-		return "ClaveUnidadDto [clave=" + clave + ", tipo=" + tipo + ", descripcion=" + descripcion + ", nombre="
-				+ nombre + "]";
-	}
 
 }

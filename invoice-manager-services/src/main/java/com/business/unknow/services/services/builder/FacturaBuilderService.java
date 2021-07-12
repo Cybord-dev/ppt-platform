@@ -118,7 +118,7 @@ public class FacturaBuilderService extends AbstractBuilderService {
     CfdiDtoBuilder cfdiBuilder =
         new CfdiDtoBuilder()
             .setVersion(ComplementoPpdDefaults.VERSION_CFDI)
-            .setLugarExpedicion(facturaContext.getEmpresaDto().getInformacionFiscal().getCp())
+            .setLugarExpedicion(facturaContext.getEmpresaDto().getCp())
             .setMoneda(ComplementoPpdDefaults.MONEDA)
             .setMetodoPago(ComplementoPpdDefaults.METODO_PAGO)
             .setFormaPago(

@@ -17,12 +17,14 @@ public class ResourceFileRsExtractor implements ResultSetExtractor<Optional<Reso
   public Optional<ResourceFileDto> extractData(ResultSet rs) throws SQLException {
     LobHandler lobHandler = new DefaultLobHandler();
     if (rs.next()) {
-      ResourceFileDto result = new ResourceFileDto();
-      result.setId(rs.getInt("FILE_ID"));
-      result.setReferencia(rs.getString("REFERENCIA"));
-      result.setTipoArchivo(rs.getString("TIPO_ARCHIVO"));
-      result.setTipoRecurso(rs.getString("TIPO_RECURSO"));
-      result.setFechaCreacion(rs.getTimestamp("FECHA_CREACION"));
+      ResourceFileDto result =
+          ResourceFileDto.builder()
+              .id(rs.getInt("FILE_ID"))
+              .referencia(rs.getString("REFERENCIA"))
+              .tipoArchivo(rs.getString("TIPO_ARCHIVO"))
+              .tipoRecurso(rs.getString("TIPO_RECURSO"))
+              .fechaCreacion(rs.getTimestamp("FECHA_CREACION"))
+              .build();
 
       byte[] fileData = lobHandler.getBlobAsBytes(rs, "DATA");
       result.setData(new String(fileData, StandardCharsets.UTF_8));

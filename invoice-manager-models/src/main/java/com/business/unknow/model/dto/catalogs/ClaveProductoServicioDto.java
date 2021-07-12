@@ -8,11 +8,21 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
 /**
  * @author ralfdemoledor
  *
  */
+@Jacksonized
+@Builder
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClaveProductoServicioDto implements Serializable {
@@ -23,41 +33,4 @@ public class ClaveProductoServicioDto implements Serializable {
 	private String similares;
 	private Date inicioVigencia;
 
-	public Integer getClave() {
-		return clave;
-	}
-
-	public void setClave(Integer clave) {
-		this.clave = clave;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public String getSimilares() {
-		return similares;
-	}
-
-	public void setSimilares(String similares) {
-		this.similares = similares;
-	}
-
-	public Date getInicioVigencia() {
-		return inicioVigencia;
-	}
-
-	public void setInicioVigencia(Date inicioVigencia) {
-		this.inicioVigencia = inicioVigencia;
-	}
-
-	@Override
-	public String toString() {
-		return "ClaveProductoServicioDto [clave=" + clave + ", descripcion=" + descripcion + ", similares=" + similares
-				+ ", inicioVigencia=" + inicioVigencia + "]";
-	}
 }

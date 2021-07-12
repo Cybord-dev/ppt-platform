@@ -1,10 +1,10 @@
 package com.business.unknow.services.services.builder;
 
-import com.business.unknow.builder.DevolucionDtoBuilder;
 import com.business.unknow.builder.FacturaContextBuilder;
 import com.business.unknow.model.context.FacturaContext;
 import com.business.unknow.model.dto.FacturaDto;
 import com.business.unknow.model.dto.pagos.PagoDevolucionDto;
+import com.business.unknow.model.dto.services.DevolucionDto;
 import com.business.unknow.services.entities.Devolucion;
 import com.business.unknow.services.entities.PagoFactura;
 import com.business.unknow.services.mapper.DevolucionMapper;
@@ -31,19 +31,19 @@ public class DevolucionesBuilderService {
       String receptor,
       String tipoReceptor) {
     return devolucionMapper.getEntityFromDevolucionDto(
-        new DevolucionDtoBuilder()
-            .setPagoMonto(totalPago)
-            .setPorcentaje(porcentaje)
-            .setImpuesto(montoBase)
-            .setMonto(
+        DevolucionDto.builder()
+            .pagoMonto(totalPago)
+            .porcentaje(porcentaje)
+            .impuesto(montoBase)
+            .monto(
                 (montoBase
                     .multiply(porcentaje)
                     .divide(new BigDecimal(16), 4, RoundingMode.HALF_UP)))
-            .setFolio(foliofFact)
-            .setIdPagoOrigen(idPago)
-            .setReceptor(receptor)
-            .setTipoReceptor(tipoReceptor)
-            .setTipo("D")
+            .folio(foliofFact)
+            .idPagoOrigen(idPago)
+            .receptor(receptor)
+            .tipoReceptor(tipoReceptor)
+            .tipo("D")
             .build());
   }
 
@@ -73,11 +73,11 @@ public class DevolucionesBuilderService {
 
   public Devolucion buildPagoDevolucion(PagoDevolucionDto dto) {
     return devolucionMapper.getEntityFromDevolucionDto(
-        new DevolucionDtoBuilder()
-            .setMonto(dto.getMonto().negate())
-            .setReceptor(dto.getReceptor())
-            .setTipoReceptor(dto.getTipoReceptor())
-            .setTipo("C")
+        DevolucionDto.builder()
+            .monto(dto.getMonto().negate())
+            .receptor(dto.getReceptor())
+            .tipoReceptor(dto.getTipoReceptor())
+            .tipo("C")
             .build());
   }
 }

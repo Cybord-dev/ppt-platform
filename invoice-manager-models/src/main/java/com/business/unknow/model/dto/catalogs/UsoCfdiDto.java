@@ -7,7 +7,17 @@ import com.business.unknow.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
+@Jacksonized
+@Builder
+@Getter
+@Setter
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UsoCfdiDto implements Serializable{
@@ -20,40 +30,5 @@ public class UsoCfdiDto implements Serializable{
 	private boolean pFisica;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.JSON_DATE_FORMAT)
 	private Date inicioVigencia;
-	public String getClave() {
-		return clave;
-	}
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public boolean ispMoral() {
-		return pMoral;
-	}
-	public void setpMoral(boolean pMoral) {
-		this.pMoral = pMoral;
-	}
-	public boolean ispFisica() {
-		return pFisica;
-	}
-	public void setpFisica(boolean pFisica) {
-		this.pFisica = pFisica;
-	}
-	public Date getInicioVigencia() {
-		return inicioVigencia;
-	}
-	public void setInicioVigencia(Date inicioVigencia) {
-		this.inicioVigencia = inicioVigencia;
-	}
-	@Override
-	public String toString() {
-		return "UsoCfdiDto [clave=" + clave + ", descripcion=" + descripcion + ", pMoral=" + pMoral + ", pFisica="
-				+ pFisica + ", inicioVigencia=" + inicioVigencia + "]";
-	}
 
 }

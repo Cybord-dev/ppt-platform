@@ -55,9 +55,9 @@ export class EmpresasComponent implements OnInit {
       map((page: GenericPage<Empresa>) => {
         const records: Empresa[] = page.content.map(r => {
           const record: any = {};
-          record.rfc = r.informacionFiscal.rfc;
-          record.razonSocial = r.informacionFiscal.razonSocial;
-          record.direccion = `${r.informacionFiscal.calle} ${r.informacionFiscal.noExterior}, ${r.informacionFiscal.localidad} ${r.informacionFiscal.municipio} ${r.informacionFiscal.estado}, C.P. ${r.informacionFiscal.cp}`;
+          record.rfc = r.rfc;
+          record.razonSocial = r.razonSocial;
+          record.direccion = `${r.calle} ${r.noExterior}, ${r.localidad} ${r.municipio} ${r.estado}, C.P. ${r.cp}`;
           record.giro = this.girosCat.find(g => g.id === r.giro).nombre;
           record.tipo = r.tipo;
           record.correo = r.correo;
